@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dnyanvani 90.4FM Interactive Flipbook</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dnyanvani 90.4FM Flipbook</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
     <style>
         body {
             margin: 0;
-            padding: 20px;
-            background: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 0;
+            background: #2c3e50;
+            overflow: hidden;
             font-family: Arial, sans-serif;
         }
 
-        #flipbook {
-            width: 90vw;
-            height: 70vh;
+        #viewer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .magazine-viewport {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #magazine {
+            background: #fff;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
 
-        .page {
-            background: white !important;
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+        .control {
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 80px;
+            margin-top: -40px;
+            cursor: pointer;
+            z-index: 1000;
         }
 
-        .page img {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
-            image-rendering: -webkit-optimize-contrast;
-        }
+        .control-previous-page { left: 20px; }
+        .control-next-page { right: 20px; }
 
         .dnyanvani-header {
             position: absolute;
             top: 20px;
+            width: 100%;
             text-align: center;
-            color: #2c3e50;
+            color: white;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -52,82 +62,76 @@
         <h3>ज्ञानवाणी - जनतेचे रेडिओ</h3>
     </div>
 
-    <div id="flipbook">
-        <!-- Pages will be added dynamically -->
+    <div id="viewer">
+        <div class="magazine-viewport">
+            <div class="magazine" id="magazine">
+                <div class="control control-previous-page"><div><i>‹</i></div></div>
+                <div class="control control-next-page"><div><i>›</i></div></div>
+            </div>
+        </div>
     </div>
 
     <script>
     $(function() {
-        // Calculate responsive size
-        const calculateSize = () => {
-            const width = Math.min(window.innerWidth * 0.9, 1200);
-            const height = width * 0.7;
-            return { width, height };
-        };
-
         // Initialize flipbook
-        const initFlipbook = () => {
-            const { width, height } = calculateSize();
-            
-            $('#flipbook').turn({
-                width: width,
-                height: height,
-                display: 'double',
-                acceleration: true,
-                gradients: true,
-                elevation: 50,
-                autoCenter: true,
-                pages: 32, // 30 pages + 2 covers
-                when: {
-                    missing: function(e, pages) {
-                        pages.forEach(page => {
-                            const img = page === 1 ? 'front.png' :
-                                      page === 32 ? 'back.png' : 
-                                      `${page-1}.png`;
-                            
-                            this.addPage(
-                                `<div class="page">
-                                    <img src="${img}" alt="Page ${page}">
-                                </div>`, 
-                                page
-                            );
-                        });
-                    },
-                    turned: function(e, page) {
-                        if(page < 2) this.turn('page', 2);
-                        if(page > 31) this.turn('page', 31);
-                    }
+        const flipbook = $('#magazine').turn({
+            width: 1000,
+            height: 650,
+            display: 'double',
+            acceleration: true,
+            elevation: 50,
+            gradients: true,
+            autoCenter: true,
+            pages: 32, // 30 pages + 2 covers
+            when: {
+                missing: function(e, pages) {
+                    pages.forEach(page => {
+                        const img = page === 1 ? 'front.png' :
+                                  page === 32 ? 'back.png' : 
+                                  `${page-1}.png`;
+                        
+                        this.addPage(
+                            `<div style="background-image:url(${img});background-size:contain;background-repeat:no-repeat;background-position:center;width:100%;height:100%;"></div>`,
+                            page
+                        );
+                    });
+                },
+                turned: function(e, page) {
+                    if(page < 2) this.turn('page', 2);
+                    if(page > 31) this.turn('page', 31);
                 }
-            });
-        };
-
-        // Initial setup
-        initFlipbook();
-
-        // Responsive resize
-        $(window).resize(function() {
-            const { width, height } = calculateSize();
-            $('#flipbook').turn('size', width, height);
+            }
         });
 
+        // Navigation controls
+        $('.control-next-page').click(() => flipbook.turn('next'));
+        $('.control-previous-page').click(() => flipbook.turn('previous'));
+
         // Keyboard navigation
-        $(document).keydown(function(e) {
-            if(e.keyCode === 37) $('#flipbook').turn('previous');
-            if(e.keyCode === 39) $('#flipbook').turn('next');
+        $(document).keydown(e => {
+            if(e.keyCode === 37) flipbook.turn('previous');
+            if(e.keyCode === 39) flipbook.turn('next');
         });
 
         // Touch support
         if($.isTouch) {
-            $('#flipbook').on('touchstart', function(e) {
+            flipbook.on('touchstart', e => {
                 e.preventDefault();
                 const touch = e.originalEvent.touches[0];
                 const x = touch.pageX;
-                const w = $(this).width()/2;
+                const w = flipbook.width()/2;
                 
-                if(x > w) $(this).turn('next');
-                else $(this).turn('previous');
+                if(x > w) flipbook.turn('next');
+                else flipbook.turn('previous');
             });
         }
+
+        // Responsive resize
+        $(window).resize(() => {
+            const width = Math.min(window.innerWidth - 40, 1000);
+            const height = width * 0.65;
+            flipbook.turn('size', width, height);
+        }).resize();
     });
     </script>
 </body>
