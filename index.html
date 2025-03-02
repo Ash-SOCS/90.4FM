@@ -1,67 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<title>Basic Turn.js Flipbook</title>
-<script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="turn.min.js"></script>
-<style type="text/css">
-body{
-    background:#e0e0e0; /* Light grey background */
-    font-family: sans-serif;
-    margin: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+    <title>Dnyanvani 90.4FM Interactive Book</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-#flipbook {
-    width: 400px;
-    height: 300px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Basic shadow */
-    border: 1px solid #ccc; /* Light border */
-}
+        #flipbook {
+            width: 1000px;
+            height: 700px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
 
-#flipbook > div {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #f9f9f9; /* Very light grey for pages */
-    text-align: center;
-    font-size: 1.5em;
-    line-height: 260px; /* Vertically center text roughly */
-}
+        .hard {
+            background: #1a2b3c url('front.png') no-repeat center center/contain !important;
+        }
 
-#flipbook .hard {
-    background-color: #ddd; /* Grey for hard covers */
-    color: #333;
-    font-weight: bold;
-    line-height: 260px; /* Vertically center text in covers */
-}
-</style>
+        #flipbook .hard:last-child {
+            background-image: url('back.png') !important;
+        }
+
+        #flipbook > div {
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #flipbook img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .dnyanvani-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
+    <div class="dnyanvani-header">
+        <h1>Dnyanvani 90.4FM Community Radio</h1>
+        <h3>ज्ञानवाणी - जनतेचे रेडिओ</h3>
+    </div>
 
-<div id="flipbook">
-    <div class="hard"> Turn.js </div>
-    <div class="hard"> Inner Cover </div>
-    <div> Page 1 </div>
-    <div> Page 2 </div>
-    <div> Page 3 </div>
-    <div> Page 4 </div>
-    <div class="hard"> Inner Back Cover </div>
-    <div class="hard"> Back Cover </div>
-</div>
+    <div id="flipbook">
+        <!-- Front Cover -->
+        <div class="hard"></div>
+        <div class="hard"></div>
 
-<script type="text/javascript">
-    $("#flipbook").turn({
-        width: 400,
-        height: 300,
-        autoCenter: true
+        <!-- Content Pages 1-30 -->
+        <div><img src="1.png" alt="Page 1"></div>
+        <div><img src="2.png" alt="Page 2"></div>
+        <div><img src="3.png" alt="Page 3"></div>
+        <div><img src="4.png" alt="Page 4"></div>
+        <div><img src="5.png" alt="Page 5"></div>
+        <div><img src="6.png" alt="Page 6"></div>
+        <div><img src="7.png" alt="Page 7"></div>
+        <div><img src="8.png" alt="Page 8"></div>
+        <div><img src="9.png" alt="Page 9"></div>
+        <div><img src="10.png" alt="Page 10"></div>
+        <div><img src="11.png" alt="Page 11"></div>
+        <div><img src="12.png" alt="Page 12"></div>
+        <div><img src="13.png" alt="Page 13"></div>
+        <div><img src="14.png" alt="Page 14"></div>
+        <div><img src="15.png" alt="Page 15"></div>
+        <div><img src="16.png" alt="Page 16"></div>
+        <div><img src="17.png" alt="Page 17"></div>
+        <div><img src="18.png" alt="Page 18"></div>
+        <div><img src="19.png" alt="Page 19"></div>
+        <div><img src="20.png" alt="Page 20"></div>
+        <div><img src="21.png" alt="Page 21"></div>
+        <div><img src="22.png" alt="Page 22"></div>
+        <div><img src="23.png" alt="Page 23"></div>
+        <div><img src="24.png" alt="Page 24"></div>
+        <div><img src="25.png" alt="Page 25"></div>
+        <div><img src="26.png" alt="Page 26"></div>
+        <div><img src="27.png" alt="Page 27"></div>
+        <div><img src="28.png" alt="Page 28"></div>
+        <div><img src="29.png" alt="Page 29"></div>
+        <div><img src="30.png" alt="Page 30"></div>
+
+        <!-- Back Cover -->
+        <div class="hard"></div>
+        <div class="hard"></div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        // Initialize flipbook
+        $("#flipbook").turn({
+            width: 1000,
+            height: 700,
+            autoCenter: true,
+            display: 'double',
+            acceleration: true,
+            gradients: true,
+            duration: 1000,
+            elevation: 50,
+            when: {
+                turned: function(e, page) {
+                    // Handle page boundaries
+                    if (page < 2) this.turn('page', 2);
+                    if (page > 33) this.turn('page', 33);
+                }
+            }
+        });
+
+        // Keyboard navigation
+        $(document).keydown(function(e) {
+            if (e.keyCode === 37) { // Left arrow
+                $("#flipbook").turn('previous');
+            } else if (e.keyCode === 39) { // Right arrow
+                $("#flipbook").turn('next');
+            }
+        });
+
+        // Mobile touch support
+        if ($.isTouch) {
+            $("#flipbook").bind('touchstart', function(e) {
+                e.preventDefault();
+                const x = e.originalEvent.touches[0].pageX;
+                const w = $(this).width()/2;
+                
+                if (x > w) {
+                    $(this).turn('next');
+                } else {
+                    $(this).turn('previous');
+                }
+            });
+        }
+
+        // Window resize handler
+        $(window).resize(function() {
+            $("#flipbook").turn('size', 1000, 700);
+        });
     });
-</script>
-
+    </script>
 </body>
 </html>
