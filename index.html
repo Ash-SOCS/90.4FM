@@ -1,138 +1,67 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dnyanvani 90.4FM Flipbook</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #2c3e50;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        #viewer {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .magazine-viewport {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        #magazine {
-            background: #fff;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .control {
-            position: absolute;
-            top: 50%;
-            width: 40px;
-            height: 80px;
-            margin-top: -40px;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .control-previous-page { left: 20px; }
-        .control-next-page { right: 20px; }
-
-        .dnyanvani-header {
-            position: absolute;
-            top: 20px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            z-index: 1000;
-        }
-    </style>
+<meta name="viewport" content="width = 1050, user-scalable = no" />
+<script type="text/javascript" src="../../extras/jquery.min.js"></script>
+<script type="text/javascript" src="../../lib/turn.min.js"></script>
+<script type="text/javascript" src="../../lib/scissor.min.js"></script>
+<link rel="stylesheet" href="double-page.css">
 </head>
 <body>
-    <div class="dnyanvani-header">
-        <h1>Dnyanvani 90.4FM Community Radio</h1>
-        <h3>ज्ञानवाणी - जनतेचे रेडिओ</h3>
-    </div>
 
-    <div id="viewer">
-        <div class="magazine-viewport">
-            <div class="magazine" id="magazine">
-                <div class="control control-previous-page"><div><i>‹</i></div></div>
-                <div class="control control-next-page"><div><i>›</i></div></div>
-            </div>
-        </div>
-    </div>
+<div class="flipbook-viewport">
+	<div class="container">
+		<div class="flipbook">
+			<div class="page" style="background-image:url(1.png)"></div>
+			<div class="double" style="background-image:url(2.png)"></div>
+			<div class="double" style="background-image:url(3.png)"></div>
+			<div class="double" style="background-image:url(4.png)"></div>
+			<div class="double" style="background-image:url(5.png)"></div>
+			<div class="double" style="background-image:url(6.png)"></div>
+			<div class="page" style="background-image:url(7.png)"></div>
+		</div>
+	</div>
+</div>
 
-    <script>
-    $(function() {
-        // Initialize flipbook
-        const flipbook = $('#magazine').turn({
-            width: 1000,
-            height: 650,
-            display: 'double',
-            acceleration: true,
-            elevation: 50,
-            gradients: true,
-            autoCenter: true,
-            pages: 32, // 30 pages + 2 covers
-            when: {
-                missing: function(e, pages) {
-                    pages.forEach(page => {
-                        const img = page === 1 ? 'front.png' :
-                                  page === 32 ? 'back.png' : 
-                                  `${page-1}.png`;
-                        
-                        this.addPage(
-                            `<div style="background-image:url(${img});background-size:contain;background-repeat:no-repeat;background-position:center;width:100%;height:100%;"></div>`,
-                            page
-                        );
-                    });
-                },
-                turned: function(e, page) {
-                    if(page < 2) this.turn('page', 2);
-                    if(page > 31) this.turn('page', 31);
-                }
-            }
-        });
 
-        // Navigation controls
-        $('.control-next-page').click(() => flipbook.turn('next'));
-        $('.control-previous-page').click(() => flipbook.turn('previous'));
+<script type="text/javascript">
 
-        // Keyboard navigation
-        $(document).keydown(e => {
-            if(e.keyCode === 37) flipbook.turn('previous');
-            if(e.keyCode === 39) flipbook.turn('next');
-        });
+function loadApp() {
 
-        // Touch support
-        if($.isTouch) {
-            flipbook.on('touchstart', e => {
-                e.preventDefault();
-                const touch = e.originalEvent.touches[0];
-                const x = touch.pageX;
-                const w = flipbook.width()/2;
-                
-                if(x > w) flipbook.turn('next');
-                else flipbook.turn('previous');
-            });
-        }
+	var flipbook = $('.flipbook');
 
-        // Responsive resize
-        $(window).resize(() => {
-            const width = Math.min(window.innerWidth - 40, 1000);
-            const height = width * 0.65;
-            flipbook.turn('size', width, height);
-        }).resize();
-    });
-    </script>
+ 	// Check if the CSS was already loaded
+	
+	if (flipbook.width()==0 || flipbook.height()==0) {
+		setTimeout(loadApp, 10);
+		return;
+	}
+
+	$('.flipbook .double').scissor();
+
+	// Create the flipbook
+
+	$('.flipbook').turn({
+			// Elevation
+
+			elevation: 50,
+			
+			// Enable gradients
+
+			gradients: true,
+			
+			// Auto center this flipbook
+
+			autoCenter: true
+
+	});
+}
+
+// Load turn.js
+
+loadApp()
+
+</script>
+
 </body>
 </html>
