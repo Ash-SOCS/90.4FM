@@ -1,99 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dnyanvani 90.4FM - Interactive Flipbook</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            background: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-
-        #flipbook {
-            width: 1000px;
-            height: 700px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .page {
-            background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hard {
-            background: #2c3e50 !important;
-            color: white;
-            font-size: 24px;
-        }
-
-        .page img {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Dnyanvani 90.4FM Flipbook</title>
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Include Turn.js (download and host locally or use your own CDN) -->
+  <script src="js/turn.js"></script>
+  <style>
+    /* Basic reset */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      overflow: hidden; /* Prevent scrolling the whole page */
+    }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      margin: 20px 0;
+    }
+    /* Flipbook container styling */
+    #flipbook {
+      width: 800px; /* total width for two pages */
+      height: 600px; /* total height */
+      margin: 0 auto;
+    }
+    /* Style for each page */
+    #flipbook .page {
+      background-color: #fff;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    /* Hard pages (covers) */
+    #flipbook .hard {
+      background: #ccc;
+    }
+  </style>
 </head>
 <body>
-    <h1>Dnyanvani 90.4FM Community Radio</h1>
+  <h1>Dnyanvani 90.4FM Flipbook</h1>
+  <div id="flipbook">
+    <!-- Front cover -->
+    <div class="hard page" style="background-image: url('images/front.png');"></div>
     
-    <div id="flipbook">
-        <!-- Front Cover -->
-        <div class="hard">
-            <img src="front.png" alt="Front Cover">
-        </div>
-        
-        <!-- Empty back cover -->
-        <div class="hard"></div>
+    <!-- Inside pages (replace or add pages as needed) -->
+    <div class="page" style="background-image: url('images/1.png');"></div>
+    <div class="page" style="background-image: url('images/2.png');"></div>
+    <div class="page" style="background-image: url('images/3.png');"></div>
+    <div class="page" style="background-image: url('images/4.png');"></div>
+    <div class="page" style="background-image: url('images/5.png');"></div>
+    <div class="page" style="background-image: url('images/6.png');"></div>
+    <div class="page" style="background-image: url('images/7.png');"></div>
+    <div class="page" style="background-image: url('images/8.png');"></div>
+    <div class="page" style="background-image: url('images/9.png');"></div>
+    <div class="page" style="background-image: url('images/10.png');"></div>
+    <div class="page" style="background-image: url('images/11.png');"></div>
+    <div class="page" style="background-image: url('images/12.png');"></div>
+    <div class="page" style="background-image: url('images/13.png');"></div>
+    <div class="page" style="background-image: url('images/14.png');"></div>
+    <div class="page" style="background-image: url('images/15.png');"></div>
+    <div class="page" style="background-image: url('images/16.png');"></div>
+    <div class="page" style="background-image: url('images/17.png');"></div>
+    <div class="page" style="background-image: url('images/18.png');"></div>
+    <div class="page" style="background-image: url('images/19.png');"></div>
+    <div class="page" style="background-image: url('images/20.png');"></div>
+    <div class="page" style="background-image: url('images/21.png');"></div>
+    <div class="page" style="background-image: url('images/22.png');"></div>
+    <div class="page" style="background-image: url('images/23.png');"></div>
+    <div class="page" style="background-image: url('images/24.png');"></div>
+    <div class="page" style="background-image: url('images/25.png');"></div>
+    <div class="page" style="background-image: url('images/26.png');"></div>
+    <div class="page" style="background-image: url('images/27.png');"></div>
+    <div class="page" style="background-image: url('images/28.png');"></div>
+    <div class="page" style="background-image: url('images/29.png');"></div>
+    <div class="page" style="background-image: url('images/30.png');"></div>
+    
+    <!-- Back cover -->
+    <div class="hard page" style="background-image: url('images/back.png');"></div>
+  </div>
 
-        <!-- Content Pages -->
-        <div class="page"><img src="1.png"></div>
-        <div class="page"><img src="2.png"></div>
-        <div class="page"><img src="3.png"></div>
-        <!-- Continue up to 30.png -->
-        
-        <!-- Back Cover -->
-        <div class="hard"></div>
-        <div class="hard">
-            <img src="back.png" alt="Back Cover">
-        </div>
-    </div>
-
-    <script>
-    $(document).ready(function() {
-        $("#flipbook").turn({
-            width: 1000,
-            height: 700,
-            autoCenter: true,
-            display: 'double',
-            acceleration: true,
-            duration: 1000,
-            gradients: true,
-            page: 1,  // Start at first content page
-            when: {
-                turning: function(event, page) {
-                    // Handle page number to image mapping
-                    const totalPages = $(this).turn('pages');
-                    
-                    // Front cover handling
-                    if(page === 1) {
-                        $(this).turn('page', 2);
-                    }
-                    // Back cover handling
-                    else if(page === totalPages) {
-                        $(this).turn('page', totalPages - 1);
-                    }
-                }
-            }
-        });
+  <script>
+    $(document).ready(function(){
+      $("#flipbook").turn({
+        width: 800,     // container total width (two pages side-by-side)
+        height: 600,    // container height
+        autoCenter: true,
+        // Optional: add gradients and acceleration for smoother flipping
+        gradients: true,
+        acceleration: true
+      });
     });
-    </script>
+  </script>
 </body>
 </html>
