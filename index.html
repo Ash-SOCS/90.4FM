@@ -1,138 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Dnyanvani 90.4FM Interactive Book</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
-    
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #2c3e50;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        #header {
-            position: fixed;
-            top: 20px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            z-index: 1000;
-        }
-
-        #flipbook {
-            width: 1000px;
-            height: 700px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-
-        .page {
-            background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .page img {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
-        }
-
-        .hard {
-            background: #1a2b3c !important;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Pokemon Magazine</title>
 </head>
+
 <body>
-    <div id="header">
-        <h1>Dnyanvani 90.4FM Community Radio</h1>
-        <h3>ज्ञानवाणी - जनतेचे रेडिओ</h3>
+  <div class="flipbook">
+    <div class="hard">My Pokemon Gallery <small>~ HankTheTank</small></div>
+    <div class="hard"></div>
+    <div>
+      <small>Lets Look At Some Amazing Pokemon ❤️</small>
+      <small>Gotta Catch 'Em All</small>
     </div>
-
-    <div id="flipbook">
-        <!-- Front Covers -->
-        <div class="hard"><img src="front.png"></div>
-        <div class="hard"></div>
-
-        <!-- Content Pages -->
-        <div><img src="1.png"></div>
-        <div><img src="2.png"></div>
-        <div><img src="3.png"></div>
-        <div><img src="4.png"></div>
-        <!-- Continue all 30 pages -->
-        <div><img src="29.png"></div>
-        <div><img src="30.png"></div>
-
-        <!-- Back Covers -->
-        <div class="hard"></div>
-        <div class="hard"><img src="back.png"></div>
+    <div>
+      <img src="1.png" alt="" />
+      <small> Charmandar </small>
     </div>
+    <div>
+      <img src="2.png" alt="" />
+      <small> Arbok </small>
+    </div>
+    <div>
+      <img src="3.png" alt="" />
+      <small> Pikachu </small>
+    </div>
+    <div>
+      <img src="4.png" alt="" />
+      <small> Mew </small>
+    </div>
+    <div>
+      <img src="5.png" alt="" />
+      <small> Darkrai </small>
+    </div>
+    <div class="hard"></div>
+    <div class="hard">Thank You <small>~ HankTheTank</small></div>
+  </div>
 
-    <script>
-    $(function() {
-        // Initialize flipbook
-        $('#flipbook').turn({
-            width: 1000,
-            height: 700,
-            display: 'double',
-            acceleration: true,
-            elevation: 50,
-            gradients: true,
-            duration: 1000,
-            autoCenter: true,
-            when: {
-                missing: function(e, pages) {
-                    // Handle dynamic page loading
-                    pages.forEach(page => {
-                        let img = page === 1 ? 'front.png' :
-                                page === 34 ? 'back.png' : 
-                                `${page-2}.png`;
-                                
-                        this.addPage(
-                            `<div class="page"><img src="${img}"></div>`,
-                            page
-                        );
-                    });
-                },
-                turned: function(e, page) {
-                    // Prevent flipping past covers
-                    if(page < 2) this.turn('page', 2);
-                    if(page > 33) this.turn('page', 33);
-                }
-            }
-        });
-
-        // Keyboard navigation
-        $(document).keydown(function(e) {
-            if(e.keyCode == 37) $('#flipbook').turn('previous');
-            if(e.keyCode == 39) $('#flipbook').turn('next');
-        });
-
-        // Mobile touch support
-        if($.isTouch) {
-            $('#flipbook').on('touchstart', function(e) {
-                e.preventDefault();
-                const x = e.originalEvent.touches[0].pageX;
-                const w = $(this).width()/2;
-                if(x > w) $(this).turn('next');
-                else $(this).turn('previous');
-            });
-        }
-
-        // Window resize handler
-        $(window).resize(function() {
-            $('#flipbook').turn('size', 1000, 700);
-        });
-    });
-    </script>
+  <script src="jquery.js"></script>
+  <script src="turn.js"></script>
+  <script>
+    $(".flipbook").turn();
+  </script>
 </body>
+
 </html>
