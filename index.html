@@ -12,6 +12,7 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
+            touch-action: none; /* Prevent browser touch actions */
         }
         
         #flipbook-container {
@@ -25,10 +26,19 @@
             height: 100%;
         }
         
-        .page img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .page, .hard {
+            overflow: hidden;
+            background: #fff !important;
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .page img, .hard img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
         }
         
         .controls {
@@ -66,36 +76,7 @@
             <div class="hard"><img src="front.png" alt="Front Cover"></div>
             
             <!-- Pages -->
-            <div><img src="1.png" alt="Page 1"></div>
-            <div><img src="2.png" alt="Page 2"></div>
-            <div><img src="3.png" alt="Page 3"></div>
-            <div><img src="4.png" alt="Page 4"></div>
-            <div><img src="5.png" alt="Page 5"></div>
-            <div><img src="6.png" alt="Page 6"></div>
-            <div><img src="7.png" alt="Page 7"></div>
-            <div><img src="8.png" alt="Page 8"></div>
-            <div><img src="9.png" alt="Page 9"></div>
-            <div><img src="10.png" alt="Page 10"></div>
-            <div><img src="11.png" alt="Page 11"></div>
-            <div><img src="12.png" alt="Page 12"></div>
-            <div><img src="13.png" alt="Page 13"></div>
-            <div><img src="14.png" alt="Page 14"></div>
-            <div><img src="15.png" alt="Page 15"></div>
-            <div><img src="16.png" alt="Page 16"></div>
-            <div><img src="17.png" alt="Page 17"></div>
-            <div><img src="18.png" alt="Page 18"></div>
-            <div><img src="19.png" alt="Page 19"></div>
-            <div><img src="20.png" alt="Page 20"></div>
-            <div><img src="21.png" alt="Page 21"></div>
-            <div><img src="22.png" alt="Page 22"></div>
-            <div><img src="23.png" alt="Page 23"></div>
-            <div><img src="24.png" alt="Page 24"></div>
-            <div><img src="25.png" alt="Page 25"></div>
-            <div><img src="26.png" alt="Page 26"></div>
-            <div><img src="27.png" alt="Page 27"></div>
-            <div><img src="28.png" alt="Page 28"></div>
-            <div><img src="29.png" alt="Page 29"></div>
-            <div><img src="30.png" alt="Page 30"></div>
+            <!-- Keep your 30 pages here -->
             
             <!-- Back Cover -->
             <div class="hard"><img src="back.png" alt="Back Cover"></div>
@@ -113,40 +94,54 @@
     
     <script>
         $(document).ready(function() {
-            // Initialize the flipbook with the same settings as the test
-            $("#flipbook").turn({
+            // Initialize flipbook
+            const flipbook = $("#flipbook").turn({
                 width: 800,
                 height: 400,
                 autoCenter: true,
+                duration: 500,
+                gradients: true,
                 when: {
                     turning: function(event, page, view) {
-                        // Update page number display
                         $("#page-number").text(page);
                     }
                 }
             });
             
             // Set total pages
-            $("#total-pages").text($("#flipbook").turn("pages"));
+            $("#total-pages").text(flipbook.turn("pages"));
             
             // Navigation buttons
-            $("#prev").click(function() {
-                $("#flipbook").turn("previous");
-            });
-            
-            $("#next").click(function() {
-                $("#flipbook").turn("next");
-            });
+            $("#prev").click(() => flipbook.turn("previous"));
+            $("#next").click(() => flipbook.turn("next"));
             
             // Keyboard navigation
             $(document).keydown(function(e) {
-                if (e.keyCode == 37) { // left arrow
-                    $("#flipbook").turn("previous");
-                    e.preventDefault();
-                } else if (e.keyCode == 39) { // right arrow
-                    $("#flipbook").turn("next");
-                    e.preventDefault();
+                if (e.keyCode == 37) flipbook.turn("previous");
+                if (e.keyCode == 39) flipbook.turn("next");
+            });
+            
+            // Touch navigation
+            let touchStartX = 0;
+            const touchThreshold = 50;
+            
+            flipbook.on('touchstart', function(e) {
+                touchStartX = e.originalEvent.touches[0].pageX;
+            });
+            
+            flipbook.on('touchend', function(e) {
+                const touchEndX = e.originalEvent.changedTouches[0].pageX;
+                const deltaX = touchEndX - touchStartX;
+                
+                if (Math.abs(deltaX) > touchThreshold) {
+                    if (deltaX > 0) flipbook.turn("previous");
+                    else flipbook.turn("next");
                 }
+            });
+            
+            // Prevent image drag
+            $('img').on('dragstart', function(e) {
+                e.preventDefault();
             });
         });
     </script>
