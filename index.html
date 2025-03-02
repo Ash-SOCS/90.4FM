@@ -5,15 +5,15 @@
   <title>Dnyanvani 90.4FM Flipbook</title>
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js (download and host locally or use your own CDN) -->
+  <!-- Include Turn.js (make sure this path is correct or replace with a CDN if needed) -->
   <script src="js/turn.js"></script>
   <style>
-    /* Basic reset */
+    /* Basic reset and styling */
     html, body {
       margin: 0;
       padding: 0;
       background: #f0f0f0;
-      overflow: hidden; /* Prevent scrolling the whole page */
+      overflow: hidden; /* Prevent overall page scroll */
     }
     body {
       font-family: Arial, sans-serif;
@@ -24,16 +24,20 @@
     }
     /* Flipbook container styling */
     #flipbook {
-      width: 800px; /* total width for two pages */
-      height: 600px; /* total height */
+      width: 800px;  /* Total width for two pages (each page is 400px) */
+      height: 600px; /* Total height */
       margin: 0 auto;
     }
-    /* Style for each page */
+    /* Each page styling */
     #flipbook .page {
       background-color: #fff;
-      background-size: cover;
-      background-position: center;
       overflow: hidden;
+    }
+    /* Ensure images fill each page */
+    #flipbook .page img {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
     /* Hard pages (covers) */
     #flipbook .hard {
@@ -44,52 +48,115 @@
 <body>
   <h1>Dnyanvani 90.4FM Flipbook</h1>
   <div id="flipbook">
-    <!-- Front cover -->
-    <div class="hard page" style="background-image: url('images/front.png');"></div>
+    <!-- Front Cover -->
+    <div class="hard page">
+      <img src="images/front.png" alt="Front Cover">
+    </div>
     
-    <!-- Inside pages (replace or add pages as needed) -->
-    <div class="page" style="background-image: url('images/1.png');"></div>
-    <div class="page" style="background-image: url('images/2.png');"></div>
-    <div class="page" style="background-image: url('images/3.png');"></div>
-    <div class="page" style="background-image: url('images/4.png');"></div>
-    <div class="page" style="background-image: url('images/5.png');"></div>
-    <div class="page" style="background-image: url('images/6.png');"></div>
-    <div class="page" style="background-image: url('images/7.png');"></div>
-    <div class="page" style="background-image: url('images/8.png');"></div>
-    <div class="page" style="background-image: url('images/9.png');"></div>
-    <div class="page" style="background-image: url('images/10.png');"></div>
-    <div class="page" style="background-image: url('images/11.png');"></div>
-    <div class="page" style="background-image: url('images/12.png');"></div>
-    <div class="page" style="background-image: url('images/13.png');"></div>
-    <div class="page" style="background-image: url('images/14.png');"></div>
-    <div class="page" style="background-image: url('images/15.png');"></div>
-    <div class="page" style="background-image: url('images/16.png');"></div>
-    <div class="page" style="background-image: url('images/17.png');"></div>
-    <div class="page" style="background-image: url('images/18.png');"></div>
-    <div class="page" style="background-image: url('images/19.png');"></div>
-    <div class="page" style="background-image: url('images/20.png');"></div>
-    <div class="page" style="background-image: url('images/21.png');"></div>
-    <div class="page" style="background-image: url('images/22.png');"></div>
-    <div class="page" style="background-image: url('images/23.png');"></div>
-    <div class="page" style="background-image: url('images/24.png');"></div>
-    <div class="page" style="background-image: url('images/25.png');"></div>
-    <div class="page" style="background-image: url('images/26.png');"></div>
-    <div class="page" style="background-image: url('images/27.png');"></div>
-    <div class="page" style="background-image: url('images/28.png');"></div>
-    <div class="page" style="background-image: url('images/29.png');"></div>
-    <div class="page" style="background-image: url('images/30.png');"></div>
+    <!-- Inside pages -->
+    <div class="page">
+      <img src="images/1.png" alt="Page 1">
+    </div>
+    <div class="page">
+      <img src="images/2.png" alt="Page 2">
+    </div>
+    <div class="page">
+      <img src="images/3.png" alt="Page 3">
+    </div>
+    <div class="page">
+      <img src="images/4.png" alt="Page 4">
+    </div>
+    <div class="page">
+      <img src="images/5.png" alt="Page 5">
+    </div>
+    <div class="page">
+      <img src="images/6.png" alt="Page 6">
+    </div>
+    <div class="page">
+      <img src="images/7.png" alt="Page 7">
+    </div>
+    <div class="page">
+      <img src="images/8.png" alt="Page 8">
+    </div>
+    <div class="page">
+      <img src="images/9.png" alt="Page 9">
+    </div>
+    <div class="page">
+      <img src="images/10.png" alt="Page 10">
+    </div>
+    <div class="page">
+      <img src="images/11.png" alt="Page 11">
+    </div>
+    <div class="page">
+      <img src="images/12.png" alt="Page 12">
+    </div>
+    <div class="page">
+      <img src="images/13.png" alt="Page 13">
+    </div>
+    <div class="page">
+      <img src="images/14.png" alt="Page 14">
+    </div>
+    <div class="page">
+      <img src="images/15.png" alt="Page 15">
+    </div>
+    <div class="page">
+      <img src="images/16.png" alt="Page 16">
+    </div>
+    <div class="page">
+      <img src="images/17.png" alt="Page 17">
+    </div>
+    <div class="page">
+      <img src="images/18.png" alt="Page 18">
+    </div>
+    <div class="page">
+      <img src="images/19.png" alt="Page 19">
+    </div>
+    <div class="page">
+      <img src="images/20.png" alt="Page 20">
+    </div>
+    <div class="page">
+      <img src="images/21.png" alt="Page 21">
+    </div>
+    <div class="page">
+      <img src="images/22.png" alt="Page 22">
+    </div>
+    <div class="page">
+      <img src="images/23.png" alt="Page 23">
+    </div>
+    <div class="page">
+      <img src="images/24.png" alt="Page 24">
+    </div>
+    <div class="page">
+      <img src="images/25.png" alt="Page 25">
+    </div>
+    <div class="page">
+      <img src="images/26.png" alt="Page 26">
+    </div>
+    <div class="page">
+      <img src="images/27.png" alt="Page 27">
+    </div>
+    <div class="page">
+      <img src="images/28.png" alt="Page 28">
+    </div>
+    <div class="page">
+      <img src="images/29.png" alt="Page 29">
+    </div>
+    <div class="page">
+      <img src="images/30.png" alt="Page 30">
+    </div>
     
-    <!-- Back cover -->
-    <div class="hard page" style="background-image: url('images/back.png');"></div>
+    <!-- Back Cover -->
+    <div class="hard page">
+      <img src="images/back.png" alt="Back Cover">
+    </div>
   </div>
 
   <script>
     $(document).ready(function(){
       $("#flipbook").turn({
-        width: 800,     // container total width (two pages side-by-side)
-        height: 600,    // container height
+        width: 800,      // Container total width (two pages at 400px each)
+        height: 600,     // Container height
         autoCenter: true,
-        // Optional: add gradients and acceleration for smoother flipping
         gradients: true,
         acceleration: true
       });
