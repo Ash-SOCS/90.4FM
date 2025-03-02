@@ -1,267 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dnyanvani 90.4FM - Coffee Table Book</title>
-    
-    <!-- jQuery is required for Turn.js -->
+    <title>Dnyanvani 90.4FM</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Turn.js library -->
-    <script src="turn.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
     <style>
         body {
             margin: 0;
-            padding: 0;
-            background-color: #333;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 20px;
-            width: 100%;
-            max-width: 100vw;
-        }
-        
-        .header {
-            color: #fff;
+            background: #333;
+            color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
-            margin-bottom: 20px;
         }
-        
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 16px;
-            margin-top: 0;
-        }
-        
-        #flipbook-container {
-            width: 90vw;
-            max-width: 1000px;
-            height: auto;
-            margin: 0 auto;
-            position: relative;
-        }
-        
         #flipbook {
+            width: 800px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        .page img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
         }
-        
-        /* Fix images to fit within containers */
-        #flipbook .page img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        /* Controls */
         .controls {
             margin-top: 20px;
-            display: flex;
-            gap: 10px;
         }
-        
         .controls button {
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            margin: 0 5px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            z-index: 1000;
-            position: relative;
-        }
-        
-        .controls button:hover {
-            background-color: #45a049;
-        }
-        
-        .page-info {
-            color: white;
-            margin-top: 10px;
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Dnyanvani 90.4FM</h1>
-            <p>Coffee Table Book</p>
-        </div>
-        
-        <div id="flipbook-container">
-            <div id="flipbook">
-                <!-- Front Cover -->
-                <div class="hard"><img src="front.png" alt="Front Cover"></div>
-                <div class="hard"></div>
-                
-                <!-- Pages -->
-                <div><img src="1.png" alt="Page 1"></div>
-                <div><img src="2.png" alt="Page 2"></div>
-                <div><img src="3.png" alt="Page 3"></div>
-                <div><img src="4.png" alt="Page 4"></div>
-                <div><img src="5.png" alt="Page 5"></div>
-                <div><img src="6.png" alt="Page 6"></div>
-                <div><img src="7.png" alt="Page 7"></div>
-                <div><img src="8.png" alt="Page 8"></div>
-                <div><img src="9.png" alt="Page 9"></div>
-                <div><img src="10.png" alt="Page 10"></div>
-                <div><img src="11.png" alt="Page 11"></div>
-                <div><img src="12.png" alt="Page 12"></div>
-                <div><img src="13.png" alt="Page 13"></div>
-                <div><img src="14.png" alt="Page 14"></div>
-                <div><img src="15.png" alt="Page 15"></div>
-                <div><img src="16.png" alt="Page 16"></div>
-                <div><img src="17.png" alt="Page 17"></div>
-                <div><img src="18.png" alt="Page 18"></div>
-                <div><img src="19.png" alt="Page 19"></div>
-                <div><img src="20.png" alt="Page 20"></div>
-                <div><img src="21.png" alt="Page 21"></div>
-                <div><img src="22.png" alt="Page 22"></div>
-                <div><img src="23.png" alt="Page 23"></div>
-                <div><img src="24.png" alt="Page 24"></div>
-                <div><img src="25.png" alt="Page 25"></div>
-                <div><img src="26.png" alt="Page 26"></div>
-                <div><img src="27.png" alt="Page 27"></div>
-                <div><img src="28.png" alt="Page 28"></div>
-                <div><img src="29.png" alt="Page 29"></div>
-                <div><img src="30.png" alt="Page 30"></div>
-                
-                <!-- Back Cover -->
-                <div class="hard"></div>
-                <div class="hard"><img src="back.png" alt="Back Cover"></div>
-            </div>
-        </div>
-        
-        <div class="controls">
-            <button id="prev">Previous</button>
-            <button id="next">Next</button>
-        </div>
-        
-        <div class="page-info">
-            Page: <span id="page-num">1</span> / <span id="page-total">34</span>
-        </div>
+    <h1>Dnyanvani 90.4FM</h1>
+    <p>Coffee Table Book</p>
+    
+    <div id="flipbook">
+        <!-- Just a few pages for testing -->
+        <div><img src="front.png" alt="Front Cover"></div>
+        <div><img src="1.png" alt="Page 1"></div>
+        <div><img src="2.png" alt="Page 2"></div>
+        <div><img src="3.png" alt="Page 3"></div>
+        <div><img src="4.png" alt="Page 4"></div>
+        <div><img src="back.png" alt="Back Cover"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
     </div>
     
     <script>
         $(document).ready(function() {
-            // Wait for images to load
-            $(window).on('load', function() {
-                initializeFlipbook();
+            // Simplest possible initialization
+            $("#flipbook").turn({
+                width: 800,
+                height: 400
             });
             
-            // Also initialize if window.load is too slow
-            setTimeout(initializeFlipbook, 1000);
+            $("#prev").click(function() {
+                $("#flipbook").turn("previous");
+            });
             
-            function initializeFlipbook() {
-                // Only initialize if not already done
-                if ($.data($("#flipbook")[0], 'turn')) {
-                    return;
-                }
-                
-                // Calculate optimal size
-                const viewportWidth = Math.min(window.innerWidth * 0.9, 1000);
-                const viewportHeight = window.innerHeight * 0.7;
-                
-                // Set a fixed aspect ratio (based on your 7.5x7.5 inch book)
-                const pageRatio = 1; // width/height for a single page
-                const bookRatio = pageRatio / 2; // for two pages side by side
-                
-                let width, height;
-                
-                // Determine dimensions based on viewport constraints
-                if (viewportWidth / viewportHeight > bookRatio) {
-                    // Height is the limiting factor
-                    height = viewportHeight;
-                    width = height * bookRatio;
-                } else {
-                    // Width is the limiting factor
-                    width = viewportWidth;
-                    height = width / bookRatio;
-                }
-                
-                // Initialize the flipbook with proper dimensions
-                $("#flipbook").turn({
-                    width: width,
-                    height: height,
-                    autoCenter: true,
-                    display: 'double',
-                    when: {
-                        turning: function(event, page, view) {
-                            $("#page-num").text(page);
-                        }
-                    }
-                });
-                
-                // Set total pages
-                const totalPages = $("#flipbook").turn("pages");
-                $("#page-total").text(totalPages);
-                $("#page-num").text($("#flipbook").turn("page"));
-                
-                // Make the buttons work
-                $("#prev").click(function(e) {
-                    e.preventDefault();
-                    $("#flipbook").turn("previous");
-                });
-                
-                $("#next").click(function(e) {
-                    e.preventDefault();
-                    $("#flipbook").turn("next");
-                });
-                
-                // Keyboard controls
-                $(document).keydown(function(e) {
-                    if (e.keyCode == 37) { // left arrow
-                        $("#flipbook").turn("previous");
-                        e.preventDefault();
-                    } else if (e.keyCode == 39) { // right arrow
-                        $("#flipbook").turn("next");
-                        e.preventDefault();
-                    }
-                });
-                
-                // Handle window resize
-                $(window).resize(function() {
-                    // Recalculate dimensions
-                    const viewportWidth = Math.min(window.innerWidth * 0.9, 1000);
-                    const viewportHeight = window.innerHeight * 0.7;
-                    
-                    let width, height;
-                    
-                    if (viewportWidth / viewportHeight > bookRatio) {
-                        height = viewportHeight;
-                        width = height * bookRatio;
-                    } else {
-                        width = viewportWidth;
-                        height = width / bookRatio;
-                    }
-                    
-                    // Update flipbook size
-                    $("#flipbook").turn("size", width, height);
-                    
-                    // Force redraw
-                    setTimeout(function() {
-                        $("#flipbook").turn("display", "double");
-                    }, 100);
-                });
-            }
+            $("#next").click(function() {
+                $("#flipbook").turn("next");
+            });
         });
     </script>
 </body>
