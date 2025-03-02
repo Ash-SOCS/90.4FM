@@ -1,17 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<title>Basic Turn.js Flipbook</title>
+<script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="turn.min.js"></script>
+<style type="text/css">
+body{
+    background:#e0e0e0; /* Light grey background */
+    font-family: sans-serif;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#flipbook {
+    width: 400px;
+    height: 300px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Basic shadow */
+    border: 1px solid #ccc; /* Light border */
+}
+
+#flipbook > div {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Very light grey for pages */
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 260px; /* Vertically center text roughly */
+}
+
+#flipbook .hard {
+    background-color: #ddd; /* Grey for hard covers */
+    color: #333;
+    font-weight: bold;
+    line-height: 260px; /* Vertically center text in covers */
+}
+</style>
+</head>
+<body>
+
 <div id="flipbook">
-	<div class="hard"> Turn.js </div>
-	<div class="hard"></div>
-	<div> Page 1 </div>
-	<div> Page 2 </div>
-	<div> Page 3 </div>
-	<div> Page 4 </div>
-	<div class="hard"></div>
-	<div class="hard"></div>
+    <div class="hard"> Turn.js </div>
+    <div class="hard"> Inner Cover </div>
+    <div> Page 1 </div>
+    <div> Page 2 </div>
+    <div> Page 3 </div>
+    <div> Page 4 </div>
+    <div class="hard"> Inner Back Cover </div>
+    <div class="hard"> Back Cover </div>
 </div>
+
 <script type="text/javascript">
-	$("#flipbook").turn({
-		width: 400,
-		height: 300,
-		autoCenter: true
-	});
+    $("#flipbook").turn({
+        width: 400,
+        height: 300,
+        autoCenter: true
+    });
 </script>
+
+</body>
+</html>
