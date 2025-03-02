@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Dnyanvani 90.4FM Interactive Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
     <style>
@@ -12,68 +13,72 @@
             background: #2c3e50;
         }
         
-        #flipbook-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         #flipbook {
             width: 1000px;
             height: 700px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .page {
-            background: white;
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .page img {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
+            background: white !important;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
         }
     </style>
 </head>
 <body>
-    <div id="flipbook-container">
-        <div id="flipbook">
-            <!-- Front Cover -->
-            <div class="page"><img src="front.png"></div>
-            
-            <!-- Content Pages -->
-            <div class="page"><img src="1.png"></div>
-            <div class="page"><img src="2.png"></div>
-            <!-- Add all 30 pages here -->
-            
-            <!-- Back Cover -->
-            <div class="page"><img src="back.png"></div>
-        </div>
-    </div>
+    <div id="flipbook"></div>
 
     <script>
     $(document).ready(function() {
-        // Initialize flipbook with 1 second delay
-        setTimeout(function() {
-            $('#flipbook').turn({
-                width: 1000,
-                height: 700,
-                pages: 32, // 30 pages + 2 covers
-                display: 'double',
-                acceleration: true,
-                autoCenter: true,
-                duration: 1000,
-                gradients: true
-            });
-        }, 1000); // Crucial delay for proper initialization
+        // 1. Verify jQuery is loaded
+        if(typeof jQuery == 'undefined') {
+            alert('jQuery not loaded!');
+            return;
+        }
 
-        // Force redraw for WebKit browsers
-        $('#flipbook').css('display', 'block').hide().fadeIn(0);
+        // 2. Create page array
+        const pages = [
+            'front.png',    // Page 1
+            '1.png',        // Page 2
+            '2.png',        // Page 3
+            // ... Add all 30 pages ...
+            '30.png',       // Page 31
+            'back.png'      // Page 32
+        ];
+
+        // 3. Initialize flipbook
+        const flipbook = $('#flipbook').turn({
+            width: 1000,
+            height: 700,
+            pages: pages.length,
+            display: 'double',
+            acceleration: true,
+            autoCenter: true,
+            duration: 1000
+        });
+
+        // 4. Add pages dynamically
+        pages.forEach((img, index) => {
+            flipbook.turn('addPage', $(`
+                <div class="page">
+                    <img src="${img}" style="width:100%;height:100%;object-fit:contain;">
+                </div>
+            `), index + 1);
+        });
+
+        // 5. Force redraw
+        setTimeout(() => flipbook.turn('size', 1000, 700), 100);
     });
+
+    // 6. Error handling
+    window.onerror = function(msg, url, line) {
+        alert(`Error: ${msg}\nLine: ${line}`);
+    };
     </script>
 </body>
 </html>
