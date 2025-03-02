@@ -7,42 +7,40 @@
     <style>
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden; /* Prevent scrolling */
             font-family: 'Arial', sans-serif;
         }
         
         #header {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 20px;
             color: #2c3e50;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         #flipbook {
             width: 1000px;
             height: 700px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            margin: 20px auto;
         }
         
         #flipbook .page {
             background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        #flipbook img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden;
         }
         
         .credit {
-            margin-top: 20px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
             color: #7f8c8d;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -52,44 +50,58 @@
         <h3>DYPU - School of Creative Studies</h3>
     </div>
     
-    <div id="flipbook">
-        <!-- Pages will be inserted here by JavaScript -->
-    </div>
+    <div id="flipbook"></div>
     
     <p class="credit">Powered by Ashirwad Das</p>
 
     <script>
     $(document).ready(function() {
-        // Create page elements
-        const flipbook = $('#flipbook');
+        // Create page elements array
+        const pages = [];
         
         // Add front cover
-        flipbook.append(createPage('front.png'));
+        pages.push(createPage('front.png'));
         
         // Add content pages
         for(let i = 1; i <= 30; i++) {
-            flipbook.append(createPage(i + '.png'));
+            pages.push(createPage(i + '.png'));
         }
         
         // Add back cover
-        flipbook.append(createPage('back.png'));
+        pages.push(createPage('back.png'));
         
         // Initialize flipbook
-        flipbook.turn({
-            width: 1000,
-            height: 700,
+        $('#flipbook').turn({
+            pages: pages.length,
+            display: 'double',
             acceleration: true,
             autoCenter: true,
-            display: 'double',
-            gradients: true,
-            duration: 1000
-        });
-        
+            height: 700,
+            width: 1000,
+            when: {
+                missing: function(e, pages) {
+                    // Add pages dynamically
+                    for(let i = 0; i < pages.length; i++) {
+                        if (this.isNaN(pages[i])) continue;
+                        this.addPage(pages[i], $(pages[pages[i]-1].clone()));
+                    }
+                }
+            }
+        }).append(pages);
+
         function createPage(imgSrc) {
-            return $('<div>', {class: 'page'}).append(
-                $('<img>', {src: imgSrc})
-            );
+            return $('<div>', {
+                class: 'page',
+                css: {
+                    backgroundImage: `url(${imgSrc})`
+                }
+            });
         }
+
+        // Handle window resize
+        $(window).on('resize', function() {
+            $('#flipbook').turn('size', 1000, 700);
+        });
     });
     </script>
 </body>
