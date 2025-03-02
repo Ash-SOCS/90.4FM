@@ -1,25 +1,54 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-<style>
-/* Dnyanvani Custom Styles */
-#canvas { position: relative; width: 100%; height: 100vh; }
-.sj-book { background: #f5f5f5; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-.dnyanvani-header { 
-    position: absolute; 
-    top: 20px; 
-    width: 100%; 
-    text-align: center; 
-    color: #2c3e50;
-    z-index: 1000;
-    font-family: Arial, sans-serif;
-}
-.hard { background: #1a2b3c !important; }
-.page-content { padding: 20px; }
-</style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
+    <style>
+        /* Essential Styles */
+        #canvas {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .sj-book {
+            width: 1000px !important;
+            height: 700px !important;
+            margin: 50px auto;
+        }
+
+        .hard {
+            background: #1a2b3c !important;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-content img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .dnyanvani-header {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
 
@@ -31,76 +60,65 @@
 <div id="canvas">
     <div id="book-zoom">
         <div class="sj-book">
-            <!-- Covers -->
-            <div depth="5" class="hard"><div class="side"></div></div>
-            <div depth="5" class="hard front-side"><div class="depth"></div></div>
+            <!-- Front Covers -->
+            <div class="hard"></div>
+            <div class="hard"></div>
             
-            <!-- Dynamic pages will be inserted here -->
+            <!-- Dynamic Pages Will Be Inserted Here -->
             
-            <!-- Back covers -->
-            <div class="hard fixed back-side"><div class="depth"></div></div>
+            <!-- Back Covers -->
+            <div class="hard"></div>
             <div class="hard"></div>
         </div>
-    </div>
-    <div id="slider-bar" class="turnjs-slider">
-        <div id="slider"></div>
     </div>
 </div>
 
 <script type="text/javascript">
-function loadApp() {
+$(document).ready(function() {
     const totalPages = 32; // 30 content + 2 covers
-    const flipbook = $('.sj-book');
 
-    // Initialize slider
-    $("#slider").slider({
-        min: 1,
-        max: totalPages,
-        slide: function(event, ui) {
-            flipbook.turn('page', ui.value);
-        }
-    });
-
-    // Initialize flipbook
-    flipbook.turn({
+    $('.sj-book').turn({
+        width: 1000,
+        height: 700,
         elevation: 50,
         acceleration: true,
         autoCenter: true,
+        display: 'double',
         gradients: true,
         duration: 1000,
         pages: totalPages,
         when: {
-            turned: function(e, page) {
-                $("#slider").slider("value", page);
-                // Handle page boundaries
-                if(page < 2) flipbook.turn('page', 2);
-                if(page > totalPages-1) flipbook.turn('page', totalPages-1);
-            },
             missing: function(e, pages) {
                 pages.forEach(page => {
                     const img = page === 1 ? 'front.png' :
                               page === totalPages ? 'back.png' :
                               `${page-1}.png`;
+                    
                     this.addPage(
                         `<div class="page-content">
-                            <img src="${img}" style="max-width:100%; height:100%; object-fit:contain;">
-                         </div>`,
+                            <img src="${img}" alt="Page ${page-1}">
+                        </div>`,
                         page
                     );
                 });
+            },
+            turned: function(e, page) {
+                // Prevent flipping past covers
+                if(page < 2) this.turn('page', 2);
+                if(page > totalPages-1) this.turn('page', totalPages-1);
             }
         }
     });
 
     // Keyboard navigation
     $(document).on('keydown', function(e) {
-        if(e.keyCode === 37) flipbook.turn('previous');
-        if(e.keyCode === 39) flipbook.turn('next');
+        if(e.keyCode === 37) $('.sj-book').turn('previous');
+        if(e.keyCode === 39) $('.sj-book').turn('next');
     });
 
     // Touch support
     if($.isTouch) {
-        flipbook.on('touchend', function(e) {
+        $('.sj-book').on('touchend', function(e) {
             const touch = e.originalEvent.changedTouches[0];
             const x = touch.pageX;
             const w = $(this).width()/2;
@@ -108,10 +126,7 @@ function loadApp() {
             else $(this).turn('previous');
         });
     }
-}
-
-// Initialize application
-$(window).on('load', loadApp);
+});
 </script>
 
 </body>
