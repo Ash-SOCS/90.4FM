@@ -16,8 +16,11 @@
             margin: 0;
             padding: 0;
             background-color: #333;
-            overflow-x: hidden;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
         }
         
         .container {
@@ -25,6 +28,8 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            width: 100%;
+            max-width: 100vw;
         }
         
         .header {
@@ -44,19 +49,23 @@
         }
         
         #flipbook-container {
+            width: 90vw;
+            max-width: 1000px;
+            height: auto;
             margin: 0 auto;
-            max-width: 100%;
+            position: relative;
         }
         
         #flipbook {
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
         }
         
-        /* Ensure images are constrained within their containers */
+        /* Fix images to fit within containers */
         #flipbook .page img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         /* Controls */
@@ -64,21 +73,29 @@
             margin-top: 20px;
             display: flex;
             gap: 10px;
-            justify-content: center;
         }
         
         .controls button {
-            padding: 10px 15px;
+            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
+            z-index: 1000;
+            position: relative;
         }
         
         .controls button:hover {
             background-color: #45a049;
+        }
+        
+        .page-info {
+            color: white;
+            margin-top: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -137,52 +154,114 @@
             <button id="prev">Previous</button>
             <button id="next">Next</button>
         </div>
+        
+        <div class="page-info">
+            Page: <span id="page-num">1</span> / <span id="page-total">34</span>
+        </div>
     </div>
     
     <script>
         $(document).ready(function() {
-            // Calculate size based on window dimensions
-            function calculateSize() {
-                // Set a reasonable maximum width
-                const maxWidth = Math.min($(window).width() * 0.8, 1000);
-                // Calculate height proportionally (keeping 1:1 aspect ratio for pages)
-                const height = maxWidth / 2; // Each page is a square, but we show two at once
-                return { width: maxWidth, height: height };
-            }
-            
-            const size = calculateSize();
-            
-            // Basic initialization with minimal options
-            $("#flipbook").turn({
-                width: size.width,
-                height: size.height,
-                autoCenter: true,
-                display: 'double'
+            // Wait for images to load
+            $(window).on('load', function() {
+                initializeFlipbook();
             });
             
-            // Navigation buttons
-            $("#prev").click(function() {
-                $("#flipbook").turn("previous");
-            });
+            // Also initialize if window.load is too slow
+            setTimeout(initializeFlipbook, 1000);
             
-            $("#next").click(function() {
-                $("#flipbook").turn("next");
-            });
-            
-            // Handle window resize
-            $(window).resize(function() {
-                const size = calculateSize();
-                $("#flipbook").turn("size", size.width, size.height);
-            });
-            
-            // Add keyboard navigation
-            $(document).keydown(function(e) {
-                if (e.keyCode == 37) { // left arrow
-                    $("#flipbook").turn("previous");
-                } else if (e.keyCode == 39) { // right arrow
-                    $("#flipbook").turn("next");
+            function initializeFlipbook() {
+                // Only initialize if not already done
+                if ($.data($("#flipbook")[0], 'turn')) {
+                    return;
                 }
-            });
+                
+                // Calculate optimal size
+                const viewportWidth = Math.min(window.innerWidth * 0.9, 1000);
+                const viewportHeight = window.innerHeight * 0.7;
+                
+                // Set a fixed aspect ratio (based on your 7.5x7.5 inch book)
+                const pageRatio = 1; // width/height for a single page
+                const bookRatio = pageRatio / 2; // for two pages side by side
+                
+                let width, height;
+                
+                // Determine dimensions based on viewport constraints
+                if (viewportWidth / viewportHeight > bookRatio) {
+                    // Height is the limiting factor
+                    height = viewportHeight;
+                    width = height * bookRatio;
+                } else {
+                    // Width is the limiting factor
+                    width = viewportWidth;
+                    height = width / bookRatio;
+                }
+                
+                // Initialize the flipbook with proper dimensions
+                $("#flipbook").turn({
+                    width: width,
+                    height: height,
+                    autoCenter: true,
+                    display: 'double',
+                    when: {
+                        turning: function(event, page, view) {
+                            $("#page-num").text(page);
+                        }
+                    }
+                });
+                
+                // Set total pages
+                const totalPages = $("#flipbook").turn("pages");
+                $("#page-total").text(totalPages);
+                $("#page-num").text($("#flipbook").turn("page"));
+                
+                // Make the buttons work
+                $("#prev").click(function(e) {
+                    e.preventDefault();
+                    $("#flipbook").turn("previous");
+                });
+                
+                $("#next").click(function(e) {
+                    e.preventDefault();
+                    $("#flipbook").turn("next");
+                });
+                
+                // Keyboard controls
+                $(document).keydown(function(e) {
+                    if (e.keyCode == 37) { // left arrow
+                        $("#flipbook").turn("previous");
+                        e.preventDefault();
+                    } else if (e.keyCode == 39) { // right arrow
+                        $("#flipbook").turn("next");
+                        e.preventDefault();
+                    }
+                });
+                
+                // Handle window resize
+                $(window).resize(function() {
+                    // Recalculate dimensions
+                    const viewportWidth = Math.min(window.innerWidth * 0.9, 1000);
+                    const viewportHeight = window.innerHeight * 0.7;
+                    
+                    let width, height;
+                    
+                    if (viewportWidth / viewportHeight > bookRatio) {
+                        height = viewportHeight;
+                        width = height * bookRatio;
+                    } else {
+                        width = viewportWidth;
+                        height = width / bookRatio;
+                    }
+                    
+                    // Update flipbook size
+                    $("#flipbook").turn("size", width, height);
+                    
+                    // Force redraw
+                    setTimeout(function() {
+                        $("#flipbook").turn("display", "double");
+                    }, 100);
+                });
+            }
         });
     </script>
 </body>
