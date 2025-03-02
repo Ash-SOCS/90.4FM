@@ -1,102 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Dnyanvani 90.4FM Flipbook</title>
-  <!-- Include jQuery (using a CDN) -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js (either host locally in js/turn.js or use a CDN if available) -->
-  <script src="js/turn.js"></script>
-  <style>
-    /* Basic styling for the flipbook container and pages */
-    body {
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    h1 {
-      margin-top: 20px;
-    }
-    #flipbook {
-      width: 750px;
-      height: 750px;
-      margin: 40px auto;
-    }
-    /* Each page */
-    #flipbook .page {
-      width: 375px;  /* half of 750px for a two-page spread */
-      height: 750px;
-      background-color: #fff;
-      overflow: hidden;
-    }
-    /* Ensure the images fill the pages */
-    #flipbook .page img {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    /* "Hard" pages for the covers so they remain fixed */
-    .hard {
-      background: #ccc;
-    }
-  </style>
+    <title>Dnyanvani 90.4FM - Interactive Flipbook</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        #flipbook {
+            width: 1000px;
+            height: 700px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .page {
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hard {
+            background: #2c3e50 !important;
+            color: white;
+            font-size: 24px;
+        }
+
+        .page img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
-
-  <h1>Dnyanvani 90.4FM Flipbook</h1>
-  <div id="flipbook">
-    <!-- Front Cover (hard page) -->
-    <div class="hard page">
-      <img src="images/front.png" alt="Front Cover">
-    </div>
+    <h1>Dnyanvani 90.4FM Community Radio</h1>
     
-    <!-- Inside Pages (we assume every two pages are designed to work together) -->
-    <!-- Page 1 and 2 -->
-    <div class="page">
-      <img src="images/1.png" alt="Page 1">
-    </div>
-    <div class="page">
-      <img src="images/2.png" alt="Page 2">
-    </div>
-    <!-- Page 3 and 4 -->
-    <div class="page">
-      <img src="images/3.png" alt="Page 3">
-    </div>
-    <div class="page">
-      <img src="images/4.png" alt="Page 4">
-    </div>
-    <!-- Continue adding pages in pairs -->
-    <!-- ... Repeat for pages 5 to 30 ... -->
-    <!-- For brevity, here is a loop-like representation: -->
-    <!--
-      For i from 5 to 30:
-      <div class="page">
-        <img src="images/{i}.png" alt="Page {i}">
-      </div>
-    -->
-    <!-- You would manually list pages 5.png through 30.png -->
-    
-    <!-- Back Cover (hard page) -->
-    <div class="hard page">
-      <img src="images/back.png" alt="Back Cover">
-    </div>
-  </div>
+    <div id="flipbook">
+        <!-- Front Cover -->
+        <div class="hard">
+            <img src="front.png" alt="Front Cover">
+        </div>
+        
+        <!-- Empty back cover -->
+        <div class="hard"></div>
 
-  <script>
-    // When document is ready, initialize the flipbook
-    $(document).ready(function(){
-      $("#flipbook").turn({
-        width: 750,
-        height: 750,
-        autoCenter: true,
-        // Total pages count (front cover + 30 pages + back cover)
-        // For our example: 1 (front) + 30 + 1 (back) = 32 pages.
-        pages: 32,
-        // Optional: set gradients or acceleration
-        gradients: true,
-        acceleration: true
-      });
+        <!-- Content Pages -->
+        <div class="page"><img src="1.png"></div>
+        <div class="page"><img src="2.png"></div>
+        <div class="page"><img src="3.png"></div>
+        <!-- Continue up to 30.png -->
+        
+        <!-- Back Cover -->
+        <div class="hard"></div>
+        <div class="hard">
+            <img src="back.png" alt="Back Cover">
+        </div>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        $("#flipbook").turn({
+            width: 1000,
+            height: 700,
+            autoCenter: true,
+            display: 'double',
+            acceleration: true,
+            duration: 1000,
+            gradients: true,
+            page: 1,  // Start at first content page
+            when: {
+                turning: function(event, page) {
+                    // Handle page number to image mapping
+                    const totalPages = $(this).turn('pages');
+                    
+                    // Front cover handling
+                    if(page === 1) {
+                        $(this).turn('page', 2);
+                    }
+                    // Back cover handling
+                    else if(page === totalPages) {
+                        $(this).turn('page', totalPages - 1);
+                    }
+                }
+            }
+        });
     });
-  </script>
+    </script>
 </body>
 </html>
