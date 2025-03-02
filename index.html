@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dnyanvani 90.4FM - Interactive Book</title>
+    <title>Dnyanvani 90.4FM Interactive Book</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.1/turn.min.js"></script>
     <style>
@@ -12,90 +12,67 @@
             background: #2c3e50;
         }
         
-        #header {
+        #flipbook-container {
             position: fixed;
-            top: 0;
-            width: 100%;
-            background: white;
-            padding: 10px;
-            text-align: center;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-        
+
         #flipbook {
             width: 1000px;
             height: 700px;
-            margin-top: 80px;
         }
-        
+
         .page {
             background: white;
-            display: flex;
+            display: flex !important;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
-        
+
         .page img {
             max-width: 95%;
             max-height: 95%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            object-fit: contain;
         }
     </style>
 </head>
 <body>
-    <div id="header">
-        <h1 style="margin: 0; color: #2c3e50;">Dnyanvani 90.4FM Community Radio</h1>
-        <h3 style="margin: 5px 0; color: #7f8c8d;">DYPU - School of Creative Studies</h3>
+    <div id="flipbook-container">
+        <div id="flipbook">
+            <!-- Front Cover -->
+            <div class="page"><img src="front.png"></div>
+            
+            <!-- Content Pages -->
+            <div class="page"><img src="1.png"></div>
+            <div class="page"><img src="2.png"></div>
+            <!-- Add all 30 pages here -->
+            
+            <!-- Back Cover -->
+            <div class="page"><img src="back.png"></div>
+        </div>
     </div>
-    
-    <div id="flipbook"></div>
 
     <script>
     $(document).ready(function() {
-        // Create pages array (front + 30 pages + back)
-        const totalPages = 32; // 30 content + 2 covers
-        
-        // Initialize flipbook first
-        $('#flipbook').turn({
-            width: 1000,
-            height: 700,
-            autoCenter: true,
-            display: 'double',
-            acceleration: true,
-            duration: 1000,
-            pages: totalPages,
-            when: {
-                missing: function(e, pageNumbers) {
-                    // Add pages dynamically
-                    for(let i = 0; i < pageNumbers.length; i++) {
-                        const page = pageNumbers[i];
-                        let imgSrc;
-                        
-                        if(page === 1) imgSrc = 'front.png';
-                        else if(page === 32) imgSrc = 'back.png';
-                        else imgSrc = (page-1) + '.png';
-                        
-                        this.addPage(createPage(imgSrc), page);
-                    }
-                }
-            }
-        });
-        
-        // Add first page immediately
-        $('#flipbook').turn('addPage', createPage('front.png'), 1);
-
-        function createPage(imgSrc) {
-            return $('<div>', {
-                class: 'page',
-                html: $('<img>', {src: imgSrc})
+        // Initialize flipbook with 1 second delay
+        setTimeout(function() {
+            $('#flipbook').turn({
+                width: 1000,
+                height: 700,
+                pages: 32, // 30 pages + 2 covers
+                display: 'double',
+                acceleration: true,
+                autoCenter: true,
+                duration: 1000,
+                gradients: true
             });
-        }
+        }, 1000); // Crucial delay for proper initialization
 
-        // Handle window resize
-        $(window).on('resize', function() {
-            $('#flipbook').turn('size', 1000, 700);
-        });
+        // Force redraw for WebKit browsers
+        $('#flipbook').css('display', 'block').hide().fadeIn(0);
     });
     </script>
 </body>
