@@ -1,50 +1,234 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Pokemon Magazine</title>
-</head>
+<!doctype html>
+<html>
+  <head>
+    <title> Turn.js 5th release - HTML5 Flipbook </title>
+    <meta name="viewport" content="width = device-width, minimum-scale=1, maximum-scale=1, user-scalable = no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
+    <!-- External JS dependencies -->
+    <script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="assets/js/underscore-min.js"></script>
+    <script type="text/javascript" src="assets/js/backbone-min.js"></script>
+    
+    <!-- Turn.js UI Kit -->
+    <script type="text/javascript" src="assets/js/turn.min.js"></script>
+    
+    <!-- App dependencies -->
+    <script type="text/javascript" src="assets/js/app.js"></script>
+
+
+     <!-- External CSS dependencies -->
+    <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css"></link>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png?a" />
+    <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+
+    <!-- App CSS dependencies -->
+    <link type="text/css" rel="stylesheet" href="assets/css/main.css"></link>
+
+    <style type="text/css">
+      .page-1 .s1{
+        -webkit-transform: translateY(100px);
+        -webkit-transition: all 1.5s;
+        opacity: 0;
+      }
+      .page-1 .s2{
+        -webkit-transform: translateY(100px);
+        -webkit-transition: all 1s;
+        -webkit-transition-delay: 0.5s;
+        opacity: 0;
+        font-family: 'Carrois Gothic SC', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 40px;
+        text-align: center;
+        color: white;
+      }
+    
+      .page-1.animation-on .s1{
+        -webkit-transform: translateY(0px);
+        opacity: 1;
+      }
+      .page-1.animation-on .s2{
+        -webkit-transform: translateY(0px);
+        opacity: 1;
+      }
+
+    </style>
+  </head>
 <body>
-  <div class="flipbook">
-    <div class="hard">My Pokemon Gallery <small>~ HankTheTank</small></div>
-    <div class="hard"></div>
-    <div>
-      <small>Lets Look At Some Amazing Pokemon ❤️</small>
-      <small>Gotta Catch 'Em All</small>
+  <div class="catalog-app">
+  <div id="viewer">
+    <div id="flipbook" class="ui-flipbook">
+      
+      <div style="background-color:#B30000;">
+
+        <div style="text-align: center; height: 210px;  margin: auto;position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
+        <img src="assets/img/turnjs-logo@2x.png" width="50" class="s1" />
+        <h1 class="s2">
+          Introducing <br /> 5th release
+        </h1>
+        </div>
+      </div>
+      <div> </div>
+      <div>
+         <p> Turn.js is a set of widgets, events, effects and themes for catalogs and ebooks built on top of jQuery.</p>
+         <h1> Some features that will make you love turn.js 5th release:</h1>
+         
+         <ul>
+          <li> The page turning widget supports two effects, page curls and solid covers. </li>
+         <li> You can embed almost any type of content from texts to videos or links. </li>
+         <li> It comes with a responsive user interface that is mobile compatible and scale well with complex contents. </p>
+         <li> All the widgets recycle DOM elements for efficient use of the client's resources. So, a 100K pages flipbook will have the same performance as one with only 10.</li>
+         <li> Average 60 fps animations that feel smooth.</li>
+         <li> You can customize many options and modify the entire design of all samples.</li>
+         <li> API designed for simplicity.</li>
+         <li> Comes with many samples, including a pre-built web app in Backbone.js and a lightbox for websites.</li>
+        <li> Devices supported: iPad, iPhone, Kindle Fire, Samsung Galaxy Tab, Nexus Tab, Surface.</li>
+        <li> Web browsers: Chrome, Firefox, Safari, IE 10</li>
+
+        </ul>
+
+      </div>
+      <div>
+        <p> Turn.js 5th release comes with: </p>
+        <h1> Widgets </h1>
+        <p> Turn </p>
+        <p> Region </p>
+        <p> Miniature </p>
+        <p> Slider </p>
+        <p> Tooltip </p>
+        <h1> Events </h1>
+        <p> tap </p>
+        <p> doubletap </p>
+        <p> pinch </p>
+        <p> slide </p>
+        <p> vmousedown </p>
+        <p> vmousemove </p>
+        <p> vmouseup </p>
+        <p> vmouseover </p>
+        <p> vmouseout </p>
+        <h1> Application Factory </h1>
+        <p> Flipbook </p>
+
+
+
+       </div>
+      <div> </div>
+      <div> </div> 
+      <div> </div>
+      <div> </div> 
+      <div> </div>
+      <div> </div> 
+      <div> </div>
+      <div> 
+        
+        <h1> About me</h1>
+        <p> I'm Emmanuel Garcia. I'm a User Interface engineer and designer.</p>
+        <p> Of course, I love JavaScript and NodeJS. But, I'm open to any new language or framework.</p>
+        <p> You can follow me on Twitter @blasten, GitHub or Linkedin</p>
+        <p> My email is blasten@gmail.com </p>
+
+      </div> 
+      <a ignore="1" class="ui-arrow-control ui-arrow-next-page"></a>
+      <a ignore="1" class="ui-arrow-control ui-arrow-previous-page"></a>
     </div>
-    <div>
-      <img src="1.png" alt="" />
-      <small> Charmandar </small>
-    </div>
-    <div>
-      <img src="2.png" alt="" />
-      <small> Arbok </small>
-    </div>
-    <div>
-      <img src="3.png" alt="" />
-      <small> Pikachu </small>
-    </div>
-    <div>
-      <img src="4.png" alt="" />
-      <small> Mew </small>
-    </div>
-    <div>
-      <img src="5.png" alt="" />
-      <small> Darkrai </small>
-    </div>
-    <div class="hard"></div>
-    <div class="hard">Thank You <small>~ HankTheTank</small></div>
   </div>
 
-  <script src="jquery.js"></script>
-  <script src="turn.js"></script>
-  <script>
-    $(".flipbook").turn();
-  </script>
-</body>
 
+  <!-- controls -->
+  <div id="controls">
+    <div class="all">
+        <div class="ui-slider" id="page-slider">
+        <div class="bar">
+          <div class="progress-width">
+            <div class="progress">
+              <div class="handler"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-options" id="options">
+        <a class="ui-icon" id="ui-icon-table-contents">
+          <i class="fa fa-bars"></i>
+        </a>
+        <a class="ui-icon show-hint" title="Miniatures" id="ui-icon-miniature">
+          <i class="fa fa-th"></i>
+        </a>
+        <a class="ui-icon" id="ui-icon-zoom">
+          <i class="fa fa-file-o"></i>
+        </a>
+        <a class="ui-icon show-hint" title="Share" id="ui-icon-share">
+          <i class="fa fa-share"></i>
+        </a>
+        <a class="ui-icon show-hint" title="Full Screen" id="ui-icon-full-screen">
+          <i class="fa fa-expand"></i>
+        </a>
+        <a class="ui-icon show-hint" id="ui-icon-toggle">
+          <i class="fa fa-ellipsis-h"></i>
+        </a>
+      </div>
+
+      <!-- zoom slider -->
+      <div id="zoom-slider-view" class="zoom-slider">
+          <div class="bg">
+             <div class="ui-slider" id="zoom-slider">
+              <div class="bar">
+                <div class="progress-width">
+                  <div class="progress">
+                    <div class="handler"></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / zoom slider -->
+    </div>
+    
+    <div id="ui-icon-expand-options">
+      <a class="ui-icon show-hint">
+        <i class="fa fa-ellipsis-h"></i>
+      </a>
+    </div>
+
+  </div>
+  <!-- / controls -->
+
+  <!-- miniatures -->
+  <div id="miniatures" class="ui-miniatures-slider">
+    
+  </div>
+  <!-- / miniatures -->
+
+<script type="text/javascript">
+  // Change these settings
+
+  FlipbookSettings = {
+    options: {
+      width: 1280,
+      height: 920
+    },
+
+    shareMessage: 'Introducing turn.js 5 - HTML5 Library for Flipbooks.',
+
+    table: [
+      {text: 'Cover', page: 1},
+      {text: 'Introduction', page: 2},
+      {text: 'Getting Started', page: 4},
+      {text: 'Reference', page: 6},
+      {text: 'Pre-order', page: 8},
+      {text: 'About', page: 12}
+    ],
+
+    pageFolder: 'content/catalog/'
+  };
+
+  $(window).load(function(event) {
+    $("#flipbook .page-1").addClass('animation-on');
+  });
+  </script>
+  
+  </body>
 </html>
