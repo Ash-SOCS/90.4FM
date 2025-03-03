@@ -5,10 +5,10 @@
   <title>Dnyanvani 90.4FM Flipbook</title>
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js (ensure this path is correct or use a CDN) -->
+  <!-- Include Turn.js (make sure the path is correct or use a CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
   <style>
-    /* Basic Reset & Body Styles */
+    /* Base reset & body styles */
     body {
       margin: 0;
       padding: 20px;
@@ -17,22 +17,19 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
-    
-    /* Flipbook Container */
+    /* Flipbook container */
     #flipbook-container {
       margin: 0 auto;
       width: 800px;
       height: 400px;
       position: relative;
     }
-    
-    /* Flipbook */
+    /* Flipbook styling */
     #flipbook {
       width: 100%;
       height: 100%;
     }
-    
-    /* Pages & Covers */
+    /* Pages & covers */
     .page, .hard {
       overflow: hidden;
       background: #fff;
@@ -40,63 +37,56 @@
       justify-content: center;
       align-items: center;
     }
-    
-    /* Ensure images fill each page */
+    /* Ensure images fill their containers */
     .page img, .hard img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
-    
-    /* Navigation Controls */
+    /* Navigation controls */
     .controls {
       margin-top: 20px;
     }
-    
     .controls button {
       padding: 10px 20px;
       margin: 0 5px;
+      cursor: pointer;
       background: #4CAF50;
       color: white;
       border: none;
       border-radius: 4px;
-      cursor: pointer;
       font-size: 16px;
     }
-    
     .controls button:hover {
       background: #45a049;
     }
-    
     .page-info {
       margin-top: 10px;
       font-size: 14px;
     }
-    
     .powered-by {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
       font-family: 'Arial Narrow', Arial, sans-serif;
+      font-size: 14px;
+      margin-top: 20px;
+      color: #ccc;
     }
-    
-    /* Mobile Responsiveness */
     @media (max-width: 800px) {
       #flipbook-container {
         width: 90vw;
         height: 50vh;
       }
-      
+      #flipbook {
+        width: 100%;
+        height: 100%;
+      }
       .controls button {
         padding: 8px 16px;
         font-size: 14px;
       }
-      
       .page-info {
         font-size: 12px;
       }
-      
       .powered-by {
         font-size: 12px;
       }
@@ -109,10 +99,10 @@
   
   <div id="flipbook-container">
     <div id="flipbook">
-      <!-- Front Cover (single page cover) -->
+      <!-- Front Cover (will be shown in single mode) -->
       <div class="hard"><img src="front.png" alt="Front Cover"></div>
       
-      <!-- Inside Pages 1 to 30 -->
+      <!-- Inner pages 1 to 30 -->
       <div class="page"><img src="1.png" alt="Page 1"></div>
       <div class="page"><img src="2.png" alt="Page 2"></div>
       <div class="page"><img src="3.png" alt="Page 3"></div>
@@ -144,7 +134,7 @@
       <div class="page"><img src="29.png" alt="Page 29"></div>
       <div class="page"><img src="30.png" alt="Page 30"></div>
       
-      <!-- Back Cover (single page cover) -->
+      <!-- Back Cover (will be shown in single mode) -->
       <div class="hard"><img src="back.png" alt="Back Cover"></div>
     </div>
   </div>
@@ -155,7 +145,7 @@
   </div>
   
   <div class="page-info">
-    Page: <span id="page-number">1</span> / <span id="total-pages"></span>
+    Page: <span id="page-number">1</span> / <span id="total-pages">32</span>
   </div>
   
   <h3 class="powered-by">Powered by Ashirwad Das</h3>
@@ -166,18 +156,29 @@
         width: 800,
         height: 400,
         autoCenter: true,
-        display: 'double',
         duration: 500,
         gradients: true,
-        covers: true, // Enable covers so that first & last pages are single and centered.
+        // Start in single mode so the cover is centered
+        display: 'single',
         when: {
+          // Change display mode depending on the page number:
+          turning: function(e, page) {
+            // Total number of pages
+            var total = $("#flipbook").turn("pages");
+            // If we're on the cover (page 1) or back cover (last page) then show single
+            if(page === 1 || page === total){
+              $("#flipbook").turn("display", "single");
+            } else {
+              $("#flipbook").turn("display", "double");
+            }
+          },
           turned: function(e, page) {
             $("#page-number").text(page);
           }
         }
       });
       
-      // Update total pages display
+      // Update the total pages in the page info
       $("#total-pages").text(flipbook.turn("pages"));
       
       // Navigation buttons
@@ -201,15 +202,12 @@
       // Touch navigation
       var touchStartX = 0;
       var touchThreshold = 50;
-      
-      flipbook.on('touchstart', function(e) {
+      flipbook.on("touchstart", function(e) {
         touchStartX = e.originalEvent.touches[0].pageX;
       });
-      
-      flipbook.on('touchend', function(e) {
+      flipbook.on("touchend", function(e) {
         var touchEndX = e.originalEvent.changedTouches[0].pageX;
         var deltaX = touchEndX - touchStartX;
-        
         if (Math.abs(deltaX) > touchThreshold) {
           if (deltaX > 0) {
             flipbook.turn("previous");
@@ -219,7 +217,7 @@
         }
       });
       
-      // Prevent dragging images
+      // Prevent image drag
       $("img").on("dragstart", function(e) {
         e.preventDefault();
       });
