@@ -1,151 +1,232 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Dnyanvani 90.4FM not Flipbook</title>
-  <!-- Include jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
-  <style>
-    /* Base reset and styling */
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #333;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    /* Container for the flipbook */
-    #flipbook-container {
-      margin: 0 auto;
-      width: 800px;
-      height: 400px;
-      position: relative;
-    }
-    /* Flipbook element */
-    #flipbook {
-      width: 100%;
-      height: 100%;
-    }
-    /* Page styling (inner pages and covers) */
-    .page, .hard {
-      overflow: hidden;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    /* Ensure images fill each page */
-    .page img, .hard img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-    /* Navigation Controls */
-    .controls {
-      margin-top: 20px;
-    }
-    .controls button {
-      padding: 10px 20px;
-      margin: 0 5px;
-      background: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .controls button:hover {
-      background: #45a049;
-    }
-  </style>
+    <title>D.Y.Patil University - School of Creative Studies</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    <style>
+        /* Reset and Base Styles */
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        /* Flipbook Container */
+        #flipbook-container {
+            margin: 0 auto;
+            width: 800px;
+            height: 400px;
+            position: relative;
+        }
+
+        /* Flipbook */
+        #flipbook {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Pages and Covers */
+        .page, .hard {
+            overflow: hidden;
+            background: #fff !important;
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page img, .hard img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 20px;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .controls button:hover {
+            background: #45a049;
+        }
+
+        /* Page Info */
+        .page-info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Powered By Text */
+        .powered-by {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            margin-top: 20px;
+            color: #ccc;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 800px) {
+            #flipbook-container {
+                width: 90vw;
+                height: 50vh;
+            }
+
+            #flipbook {
+                width: 100%;
+                height: 100%;
+            }
+
+            .controls button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .page-info {
+                font-size: 12px;
+            }
+
+            .powered-by {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Dnyanvani 90.4FM test</h1>
-  <p>Coffee Table Book</p>
-  
-  <div id="flipbook-container">
-    <div id="flipbook">
-      <!-- Front Cover -->
-      <div class="hard"><img src="front.png" alt="Front Cover"></div>
-      
-      <!-- Inner pages 1 to 30 -->
-      <div class="page"><img src="1.png" alt="Page 1"></div>
-      <div class="page"><img src="2.png" alt="Page 2"></div>
-      <div class="page"><img src="3.png" alt="Page 3"></div>
-      <div class="page"><img src="4.png" alt="Page 4"></div>
-      <div class="page"><img src="5.png" alt="Page 5"></div>
-      <div class="page"><img src="6.png" alt="Page 6"></div>
-      <div class="page"><img src="7.png" alt="Page 7"></div>
-      <div class="page"><img src="8.png" alt="Page 8"></div>
-      <div class="page"><img src="9.png" alt="Page 9"></div>
-      <div class="page"><img src="10.png" alt="Page 10"></div>
-      <div class="page"><img src="11.png" alt="Page 11"></div>
-      <div class="page"><img src="12.png" alt="Page 12"></div>
-      <div class="page"><img src="13.png" alt="Page 13"></div>
-      <div class="page"><img src="14.png" alt="Page 14"></div>
-      <div class="page"><img src="15.png" alt="Page 15"></div>
-      <div class="page"><img src="16.png" alt="Page 16"></div>
-      <div class="page"><img src="17.png" alt="Page 17"></div>
-      <div class="page"><img src="18.png" alt="Page 18"></div>
-      <div class="page"><img src="19.png" alt="Page 19"></div>
-      <div class="page"><img src="20.png" alt="Page 20"></div>
-      <div class="page"><img src="21.png" alt="Page 21"></div>
-      <div class="page"><img src="22.png" alt="Page 22"></div>
-      <div class="page"><img src="23.png" alt="Page 23"></div>
-      <div class="page"><img src="24.png" alt="Page 24"></div>
-      <div class="page"><img src="25.png" alt="Page 25"></div>
-      <div class="page"><img src="26.png" alt="Page 26"></div>
-      <div class="page"><img src="27.png" alt="Page 27"></div>
-      <div class="page"><img src="28.png" alt="Page 28"></div>
-      <div class="page"><img src="29.png" alt="Page 29"></div>
-      <div class="page"><img src="30.png" alt="Page 30"></div>
-      
-      <!-- Back Cover -->
-      <div class="hard"><img src="back.png" alt="Back Cover"></div>
+    <h1>Dnyanvani 90.4FM</h1>
+    <p>Coffee Table Book</p>
+    
+    <div id="flipbook-container">
+        <div id="flipbook">
+            <!-- Front Cover -->
+            <div class="hard"><img src="front.png" alt="Front Cover"></div>
+            
+            <!-- Pages 1-30 -->
+            <div class="page"><img src="1.png" alt="Page 1"></div>
+            <div class="page"><img src="2.png" alt="Page 2"></div>
+            <div class="page"><img src="3.png" alt="Page 3"></div>
+            <div class="page"><img src="4.png" alt="Page 4"></div>
+            <div class="page"><img src="5.png" alt="Page 5"></div>
+            <div class="page"><img src="6.png" alt="Page 6"></div>
+            <div class="page"><img src="7.png" alt="Page 7"></div>
+            <div class="page"><img src="8.png" alt="Page 8"></div>
+            <div class="page"><img src="9.png" alt="Page 9"></div>
+            <div class="page"><img src="10.png" alt="Page 10"></div>
+            <div class="page"><img src="11.png" alt="Page 11"></div>
+            <div class="page"><img src="12.png" alt="Page 12"></div>
+            <div class="page"><img src="13.png" alt="Page 13"></div>
+            <div class="page"><img src="14.png" alt="Page 14"></div>
+            <div class="page"><img src="15.png" alt="Page 15"></div>
+            <div class="page"><img src="16.png" alt="Page 16"></div>
+            <div class="page"><img src="17.png" alt="Page 17"></div>
+            <div class="page"><img src="18.png" alt="Page 18"></div>
+            <div class="page"><img src="19.png" alt="Page 19"></div>
+            <div class="page"><img src="20.png" alt="Page 20"></div>
+            <div class="page"><img src="21.png" alt="Page 21"></div>
+            <div class="page"><img src="22.png" alt="Page 22"></div>
+            <div class="page"><img src="23.png" alt="Page 23"></div>
+            <div class="page"><img src="24.png" alt="Page 24"></div>
+            <div class="page"><img src="25.png" alt="Page 25"></div>
+            <div class="page"><img src="26.png" alt="Page 26"></div>
+            <div class="page"><img src="27.png" alt="Page 27"></div>
+            <div class="page"><img src="28.png" alt="Page 28"></div>
+            <div class="page"><img src="29.png" alt="Page 29"></div>
+            <div class="page"><img src="30.png" alt="Page 30"></div>
+            
+            <!-- Back Cover -->
+            <div class="hard"><img src="back.png" alt="Back Cover"></div>
+        </div>
     </div>
-  </div>
-  
-  <div class="controls">
-    <button id="prev">Previous</button>
-    <button id="next">Next</button>
-  </div>
-  
-  <script>
-    $(document).ready(function() {
-      $("#flipbook").turn({
-        width: 800,
-        height: 400,
-        autoCenter: true,
-        display: 'double',
-        duration: 500,
-        gradients: true,
-        covers: true  // Treats the first and last pages as covers and centers them.
-      });
-      
-      $("#prev").click(function() {
-        $("#flipbook").turn("previous");
-      });
-      
-      $("#next").click(function() {
-        $("#flipbook").turn("next");
-      });
-      
-      $(document).keydown(function(e) {
-        if (e.keyCode === 37) {
-          $("#flipbook").turn("previous");
-        } else if (e.keyCode === 39) {
-          $("#flipbook").turn("next");
-        }
-      });
-      
-      $("img").on("dragstart", function(e) {
-        e.preventDefault();
-      });
-    });
-  </script>
+    
+    <div class="controls">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+    
+    <div class="page-info">
+        Page: <span id="page-number">1</span> / <span id="total-pages">32</span>
+    </div>
+
+    <h3 class="powered-by">Powered by Ashirwad Das</h3>
+    
+    <script>
+        $(document).ready(function() {
+            // Initialize flipbook
+            const flipbook = $("#flipbook").turn({
+                width: 800,
+                height: 400,
+                autoCenter: true,
+                duration: 500,
+                gradients: true,
+                display: 'double', // Default display mode
+                when: {
+                    turned: function(e, page) {
+                        $("#page-number").text(page);
+                        // Switch display mode for covers
+                        if (page === 1 || page === 32) {
+                            $(this).turn("display", "single");
+                        } else {
+                            $(this).turn("display", "double");
+                        }
+                        // Force centering after mode change
+                        $(this).turn("center");
+                    }
+                }
+            });
+            
+            // Set total pages
+            $("#total-pages").text(flipbook.turn("pages"));
+            
+            // Navigation buttons
+            $("#prev").click(() => flipbook.turn("previous"));
+            $("#next").click(() => flipbook.turn("next"));
+            
+            // Keyboard navigation
+            $(document).keydown(function(e) {
+                if (e.keyCode == 37) flipbook.turn("previous");
+                if (e.keyCode == 39) flipbook.turn("next");
+            });
+            
+            // Touch navigation
+            let touchStartX = 0;
+            const touchThreshold = 50;
+            
+            flipbook.on('touchstart', function(e) {
+                touchStartX = e.originalEvent.touches[0].pageX;
+            });
+            
+            flipbook.on('touchend', function(e) {
+                const touchEndX = e.originalEvent.changedTouches[0].pageX;
+                const deltaX = touchEndX - touchStartX;
+                
+                if (Math.abs(deltaX) > touchThreshold) {
+                    if (deltaX > 0) flipbook.turn("previous");
+                    else flipbook.turn("next");
+                }
+            });
+            
+            // Prevent image drag
+            $('img').on('dragstart', function(e) {
+                e.preventDefault();
+            });
+
+            // Initial centering for front cover
+            flipbook.turn("center");
+        });
+    </script>
 </body>
 </html>
