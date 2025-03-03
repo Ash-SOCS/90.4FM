@@ -5,10 +5,10 @@
   <title>Dnyanvani 90.4FM Flipbook</title>
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js (make sure the path is correct or use a CDN) -->
+  <!-- Include Turn.js (ensure this path is correct or use a CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
   <style>
-    /* Base Reset & Body Styles */
+    /* Basic Reset & Body Styles */
     body {
       margin: 0;
       padding: 20px;
@@ -26,7 +26,7 @@
       position: relative;
     }
     
-    /* Flipbook Styling */
+    /* Flipbook */
     #flipbook {
       width: 100%;
       height: 100%;
@@ -35,24 +35,18 @@
     /* Pages & Covers */
     .page, .hard {
       overflow: hidden;
-      background: #fff !important;
-      display: flex !important;
+      background: #fff;
+      display: flex;
       justify-content: center;
       align-items: center;
     }
     
-    /* Image Styling for pages and covers */
+    /* Ensure images fill each page */
     .page img, .hard img {
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: contain;
-      image-rendering: -webkit-optimize-contrast;
-    }
-    
-    /* Dummy pages (empty) for centering covers */
-    .dummy {
-      background: none;
+      display: block;
     }
     
     /* Navigation Controls */
@@ -63,11 +57,11 @@
     .controls button {
       padding: 10px 20px;
       margin: 0 5px;
-      cursor: pointer;
       background: #4CAF50;
       color: white;
       border: none;
       border-radius: 4px;
+      cursor: pointer;
       font-size: 16px;
     }
     
@@ -81,10 +75,10 @@
     }
     
     .powered-by {
-      font-family: 'Arial Narrow', Arial, sans-serif;
-      font-size: 14px;
       margin-top: 20px;
+      font-size: 14px;
       color: #ccc;
+      font-family: 'Arial Narrow', Arial, sans-serif;
     }
     
     /* Mobile Responsiveness */
@@ -92,11 +86,6 @@
       #flipbook-container {
         width: 90vw;
         height: 50vh;
-      }
-      
-      #flipbook {
-        width: 100%;
-        height: 100%;
       }
       
       .controls button {
@@ -120,13 +109,10 @@
   
   <div id="flipbook-container">
     <div id="flipbook">
-      <!-- Dummy left page for centering front cover -->
-      <div class="hard dummy"></div>
-      
-      <!-- Front Cover -->
+      <!-- Front Cover (single page cover) -->
       <div class="hard"><img src="front.png" alt="Front Cover"></div>
       
-      <!-- Inside Pages 1-30 -->
+      <!-- Inside Pages 1 to 30 -->
       <div class="page"><img src="1.png" alt="Page 1"></div>
       <div class="page"><img src="2.png" alt="Page 2"></div>
       <div class="page"><img src="3.png" alt="Page 3"></div>
@@ -158,11 +144,8 @@
       <div class="page"><img src="29.png" alt="Page 29"></div>
       <div class="page"><img src="30.png" alt="Page 30"></div>
       
-      <!-- Back Cover -->
+      <!-- Back Cover (single page cover) -->
       <div class="hard"><img src="back.png" alt="Back Cover"></div>
-      
-      <!-- Dummy right page for centering back cover -->
-      <div class="hard dummy"></div>
     </div>
   </div>
   
@@ -172,14 +155,13 @@
   </div>
   
   <div class="page-info">
-    Page: <span id="page-number">1</span> / <span id="total-pages">34</span>
+    Page: <span id="page-number">1</span> / <span id="total-pages"></span>
   </div>
   
   <h3 class="powered-by">Powered by Ashirwad Das</h3>
   
   <script>
     $(document).ready(function() {
-      // Initialize flipbook
       var flipbook = $("#flipbook").turn({
         width: 800,
         height: 400,
@@ -187,6 +169,7 @@
         display: 'double',
         duration: 500,
         gradients: true,
+        covers: true, // Enable covers so that first & last pages are single and centered.
         when: {
           turned: function(e, page) {
             $("#page-number").text(page);
@@ -194,7 +177,7 @@
         }
       });
       
-      // Update total pages
+      // Update total pages display
       $("#total-pages").text(flipbook.turn("pages"));
       
       // Navigation buttons
@@ -208,10 +191,11 @@
       
       // Keyboard navigation
       $(document).keydown(function(e) {
-        if (e.keyCode === 37)
+        if (e.keyCode === 37) {
           flipbook.turn("previous");
-        if (e.keyCode === 39)
+        } else if (e.keyCode === 39) {
           flipbook.turn("next");
+        }
       });
       
       // Touch navigation
@@ -235,7 +219,7 @@
         }
       });
       
-      // Prevent image drag
+      // Prevent dragging images
       $("img").on("dragstart", function(e) {
         e.preventDefault();
       });
