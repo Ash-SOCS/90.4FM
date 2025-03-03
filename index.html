@@ -81,7 +81,7 @@
         .controls button:hover {
             background: #45a049;
         }
-        /* Hide controls on small screens */
+        /* Hide controls on small screens (CSS fallback) */
         @media (max-width: 600px) {
             .controls {
                 display: none !important;
@@ -250,6 +250,11 @@
             $(window).resize(function() {
                 $("#flipbook").turn("center");
             });
+            
+            // Additional JS check: hide controls if window width is less than 600px
+            if (window.innerWidth < 600) {
+                $(".controls").hide();
+            }
         });
     </script>
 </body>
