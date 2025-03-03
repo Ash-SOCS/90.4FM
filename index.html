@@ -14,7 +14,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-
         /* Flipbook Container */
         #flipbook-container {
             margin: 0 auto;
@@ -22,34 +21,29 @@
             height: 400px;
             position: relative;
         }
-
         /* Flipbook */
         #flipbook {
             width: 100%;
             height: 100%;
         }
-
         /* Pages and Covers */
         .page, .hard {
             overflow: hidden;
             background: #fff !important;
             display: flex !important;
             justify-content: center;
-            align-items: center;
+            align-items: center !important;
         }
-
         .page img, .hard img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
             image-rendering: -webkit-optimize-contrast;
         }
-
         /* Controls */
         .controls {
             margin-top: 20px;
         }
-
         .controls button {
             padding: 10px 20px;
             margin: 0 5px;
@@ -60,17 +54,14 @@
             border-radius: 4px;
             font-size: 16px;
         }
-
         .controls button:hover {
             background: #45a049;
         }
-
         /* Page Info */
         .page-info {
             margin-top: 10px;
             font-size: 14px;
         }
-
         /* Powered By Text */
         .powered-by {
             font-family: 'Arial Narrow', Arial, sans-serif;
@@ -78,28 +69,23 @@
             margin-top: 20px;
             color: #ccc;
         }
-
         /* Mobile Responsiveness */
         @media (max-width: 800px) {
             #flipbook-container {
                 width: 90vw;
                 height: 50vh;
             }
-
             #flipbook {
                 width: 100%;
                 height: 100%;
             }
-
             .controls button {
                 padding: 8px 16px;
                 font-size: 14px;
             }
-
             .page-info {
                 font-size: 12px;
             }
-
             .powered-by {
                 font-size: 12px;
             }
@@ -165,58 +151,57 @@
     
     <script>
         $(document).ready(function() {
-            // Initialize flipbook
+            const totalPages = 32; // front cover + 30 inner pages + back cover
+            
             const flipbook = $("#flipbook").turn({
                 width: 800,
                 height: 400,
                 autoCenter: true,
                 duration: 500,
                 gradients: true,
-                display: 'double', // Default display mode
+                // When turning, adjust display mode: single for covers, double for inner pages
                 when: {
-                    turned: function(e, page) {
-                        $("#page-number").text(page);
-                        // Switch display mode for covers
-                        if (page === 1 || page === 32) {
+                    turning: function(e, page) {
+                        // If first or last page, use single-page display
+                        if (page === 1 || page === totalPages) {
                             $(this).turn("display", "single");
                         } else {
                             $(this).turn("display", "double");
                         }
-                        // Force centering after mode change
-                        $(this).turn("center");
+                    },
+                    turned: function(e, page) {
+                        $("#page-number").text(page);
                     }
                 }
             });
             
-            // Set total pages
+            // Initially, force single display if starting at cover
+            if ($("#flipbook").turn("page") === 1) {
+                $("#flipbook").turn("display", "single");
+            }
+            
+            // Set total pages (if needed)
             $("#total-pages").text(flipbook.turn("pages"));
             
             // Navigation buttons
-            $("#prev").click(function() {
-                flipbook.turn("previous");
-            });
-            $("#next").click(function() {
-                flipbook.turn("next");
-            });
+            $("#prev").click(() => flipbook.turn("previous"));
+            $("#next").click(() => flipbook.turn("next"));
             
             // Keyboard navigation
             $(document).keydown(function(e) {
-                if (e.keyCode == 37) flipbook.turn("previous");
-                if (e.keyCode == 39) flipbook.turn("next");
+                if (e.keyCode === 37) flipbook.turn("previous");
+                if (e.keyCode === 39) flipbook.turn("next");
             });
             
             // Touch navigation
             let touchStartX = 0;
             const touchThreshold = 50;
-            
             flipbook.on('touchstart', function(e) {
                 touchStartX = e.originalEvent.touches[0].pageX;
             });
-            
             flipbook.on('touchend', function(e) {
                 const touchEndX = e.originalEvent.changedTouches[0].pageX;
                 const deltaX = touchEndX - touchStartX;
-                
                 if (Math.abs(deltaX) > touchThreshold) {
                     if (deltaX > 0) flipbook.turn("previous");
                     else flipbook.turn("next");
@@ -227,9 +212,11 @@
             $('img').on('dragstart', function(e) {
                 e.preventDefault();
             });
-
-            // Initial centering for front cover
-            flipbook.turn("center");
+            
+            // Recenter on window resize
+            $(window).resize(function() {
+                $("#flipbook").turn("center");
+            });
         });
     </script>
 </body>
