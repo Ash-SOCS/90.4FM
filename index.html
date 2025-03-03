@@ -192,8 +192,12 @@
             $("#total-pages").text(flipbook.turn("pages"));
             
             // Navigation buttons
-            $("#prev").click(() => flipbook.turn("previous"));
-            $("#next").click(() => flipbook.turn("next"));
+            $("#prev").click(function() {
+                flipbook.turn("previous");
+            });
+            $("#next").click(function() {
+                flipbook.turn("next");
+            });
             
             // Keyboard navigation
             $(document).keydown(function(e) {
