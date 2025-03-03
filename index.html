@@ -5,17 +5,23 @@
   <title>Dnyanvani 90.4FM Flipbook</title>
   <!-- Include jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Include Turn.js (make sure the path is correct or use a CDN) -->
+  <!-- Include Turn.js (update the path or use a CDN as needed) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
   <style>
-    /* Base reset & body styles */
+    /* Base styles */
     body {
       margin: 0;
       padding: 20px;
       background: #333;
-      color: white;
+      color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
+    }
+    /* Title styling: normal weight */
+    .title {
+      font-size: 24px;
+      font-weight: normal;
+      margin-bottom: 10px;
     }
     /* Flipbook container */
     #flipbook-container {
@@ -24,12 +30,12 @@
       height: 400px;
       position: relative;
     }
-    /* Flipbook styling */
+    /* Flipbook */
     #flipbook {
       width: 100%;
       height: 100%;
     }
-    /* Pages & covers */
+    /* Pages and covers */
     .page, .hard {
       overflow: hidden;
       background: #fff;
@@ -37,12 +43,16 @@
       justify-content: center;
       align-items: center;
     }
-    /* Ensure images fill their containers */
+    /* Ensure images fill the pages */
     .page img, .hard img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
+    }
+    /* Dummy pages for centering covers (invisible) */
+    .dummy {
+      background: #fff;
     }
     /* Navigation controls */
     .controls {
@@ -51,58 +61,31 @@
     .controls button {
       padding: 10px 20px;
       margin: 0 5px;
-      cursor: pointer;
       background: #4CAF50;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 4px;
       font-size: 16px;
+      cursor: pointer;
     }
     .controls button:hover {
       background: #45a049;
     }
-    .page-info {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .powered-by {
-      font-family: 'Arial Narrow', Arial, sans-serif;
-      font-size: 14px;
-      margin-top: 20px;
-      color: #ccc;
-    }
-    @media (max-width: 800px) {
-      #flipbook-container {
-        width: 90vw;
-        height: 50vh;
-      }
-      #flipbook {
-        width: 100%;
-        height: 100%;
-      }
-      .controls button {
-        padding: 8px 16px;
-        font-size: 14px;
-      }
-      .page-info {
-        font-size: 12px;
-      }
-      .powered-by {
-        font-size: 12px;
-      }
-    }
   </style>
 </head>
 <body>
-  <h1>Dnyanvani 90.4FM</h1>
+  <div class="title">Dnyanvani 90.4FM</div>
   <p>Coffee Table Book</p>
   
   <div id="flipbook-container">
     <div id="flipbook">
-      <!-- Front Cover (will be shown in single mode) -->
+      <!-- Dummy left page to center the front cover -->
+      <div class="hard dummy"></div>
+      
+      <!-- Front Cover -->
       <div class="hard"><img src="front.png" alt="Front Cover"></div>
       
-      <!-- Inner pages 1 to 30 -->
+      <!-- Inner Pages 1 to 30 -->
       <div class="page"><img src="1.png" alt="Page 1"></div>
       <div class="page"><img src="2.png" alt="Page 2"></div>
       <div class="page"><img src="3.png" alt="Page 3"></div>
@@ -134,8 +117,11 @@
       <div class="page"><img src="29.png" alt="Page 29"></div>
       <div class="page"><img src="30.png" alt="Page 30"></div>
       
-      <!-- Back Cover (will be shown in single mode) -->
+      <!-- Back Cover -->
       <div class="hard"><img src="back.png" alt="Back Cover"></div>
+      
+      <!-- Dummy right page to center the back cover -->
+      <div class="hard dummy"></div>
     </div>
   </div>
   
@@ -144,80 +130,33 @@
     <button id="next">Next</button>
   </div>
   
-  <div class="page-info">
-    Page: <span id="page-number">1</span> / <span id="total-pages">32</span>
-  </div>
-  
-  <h3 class="powered-by">Powered by Ashirwad Das</h3>
-  
   <script>
     $(document).ready(function() {
-      var flipbook = $("#flipbook").turn({
+      $("#flipbook").turn({
         width: 800,
         height: 400,
         autoCenter: true,
+        display: 'double',
         duration: 500,
-        gradients: true,
-        // Start in single mode so the cover is centered
-        display: 'single',
-        when: {
-          // Change display mode depending on the page number:
-          turning: function(e, page) {
-            // Total number of pages
-            var total = $("#flipbook").turn("pages");
-            // If we're on the cover (page 1) or back cover (last page) then show single
-            if(page === 1 || page === total){
-              $("#flipbook").turn("display", "single");
-            } else {
-              $("#flipbook").turn("display", "double");
-            }
-          },
-          turned: function(e, page) {
-            $("#page-number").text(page);
-          }
-        }
+        gradients: true
       });
       
-      // Update the total pages in the page info
-      $("#total-pages").text(flipbook.turn("pages"));
-      
-      // Navigation buttons
       $("#prev").click(function() {
-        flipbook.turn("previous");
+        $("#flipbook").turn("previous");
       });
       
       $("#next").click(function() {
-        flipbook.turn("next");
+        $("#flipbook").turn("next");
       });
       
-      // Keyboard navigation
       $(document).keydown(function(e) {
         if (e.keyCode === 37) {
-          flipbook.turn("previous");
+          $("#flipbook").turn("previous");
         } else if (e.keyCode === 39) {
-          flipbook.turn("next");
+          $("#flipbook").turn("next");
         }
       });
       
-      // Touch navigation
-      var touchStartX = 0;
-      var touchThreshold = 50;
-      flipbook.on("touchstart", function(e) {
-        touchStartX = e.originalEvent.touches[0].pageX;
-      });
-      flipbook.on("touchend", function(e) {
-        var touchEndX = e.originalEvent.changedTouches[0].pageX;
-        var deltaX = touchEndX - touchStartX;
-        if (Math.abs(deltaX) > touchThreshold) {
-          if (deltaX > 0) {
-            flipbook.turn("previous");
-          } else {
-            flipbook.turn("next");
-          }
-        }
-      });
-      
-      // Prevent image drag
       $("img").on("dragstart", function(e) {
         e.preventDefault();
       });
