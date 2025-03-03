@@ -230,16 +230,6 @@
             $('img').on('dragstart', function(e) {
                 e.preventDefault();
             });
-
-            // Prevent zooming on mobile
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
-            });
-
-            // Prevent scrolling on mobile
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
         });
     </script>
 </body>
