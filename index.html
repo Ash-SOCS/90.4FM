@@ -16,7 +16,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-
         /* Flipbook Container */
         #flipbook-container {
             margin: 0 auto;
@@ -24,13 +23,11 @@
             height: 400px;
             position: relative;
         }
-
         /* Flipbook */
         #flipbook {
             width: 100%;
             height: 100%;
         }
-
         /* Pages and Covers */
         .page, .hard {
             overflow: hidden;
@@ -39,14 +36,12 @@
             justify-content: center;
             align-items: center !important;
         }
-
         .page img, .hard img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
             image-rendering: -webkit-optimize-contrast;
         }
-
         /* Overlays for negative space on covers */
         #leftOverlay,
         #rightOverlay {
@@ -57,24 +52,22 @@
             display: none;
             font-family: 'Pacifico', cursive;
             font-size: 36px;
-            color: #FF5722;
             text-align: center;
             padding-top: 100px; /* adjust to center text vertically */
             pointer-events: none; /* allow clicks to pass through */
         }
         #leftOverlay {
             left: 0;
+            color: #FF5722;
         }
         #rightOverlay {
             right: 0;
             color: #8BC34A;
         }
-
         /* Controls */
         .controls {
             margin-top: 20px;
         }
-
         .controls button {
             padding: 10px 20px;
             margin: 0 5px;
@@ -85,24 +78,20 @@
             border-radius: 4px;
             font-size: 16px;
         }
-
         .controls button:hover {
             background: #45a049;
         }
-
         /* Hide controls on small screens */
         @media (max-width: 600px) {
             .controls {
-                display: none;
+                display: none !important;
             }
         }
-
         /* Page Info */
         .page-info {
             margin-top: 10px;
             font-size: 14px;
         }
-
         /* Powered By Text */
         .powered-by {
             font-family: 'Arial Narrow', Arial, sans-serif;
@@ -110,7 +99,6 @@
             margin-top: 20px;
             color: #ccc;
         }
-
         /* Mobile Responsiveness */
         @media (max-width: 800px) {
             #flipbook-container {
@@ -179,7 +167,7 @@
             <div class="hard"><img src="back.png" alt="Back Cover"></div>
         </div>
         
-        <!-- Overlays for negative space on covers -->
+        <!-- Overlays for cover negative spaces -->
         <div id="leftOverlay">Hello<br>Namaste</div>
         <div id="rightOverlay">Thank You<br>you</div>
     </div>
@@ -207,9 +195,6 @@
                 gradients: true,
                 covers: true,
                 when: {
-                    turning: function(e, page) {
-                        // Optionally adjust display mode here.
-                    },
                     turned: function(e, page) {
                         $("#page-number").text(page);
                         // Show left overlay only on front cover (page 1)
@@ -228,7 +213,7 @@
                 }
             });
             
-            // Set total pages
+            // Set total pages dynamically
             $("#total-pages").text(flipbook.turn("pages"));
             
             // Navigation buttons
